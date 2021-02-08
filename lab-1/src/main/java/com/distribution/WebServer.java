@@ -9,7 +9,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class WebServer {
-    static Logger LOGGER;
+    private static Logger LOGGER;
 
     static {
         try (FileInputStream ins = new FileInputStream(Config.LOG_CONFIG_FILE_PATH)) {
@@ -21,16 +21,12 @@ public class WebServer {
     }
 
     public static void main(String[] args) throws Throwable {
-        try {
-            ServerSocket serverSocket = new ServerSocket(8080);
-            LOGGER.info("Server started on port 8080");
-            while (true) {
-                Socket socket = serverSocket.accept();
-                LOGGER.info("Client accepted");
-                new Thread(new SocketProcessor(socket)).start();
-            }
-        }finally {
-            LOGGER.info("Server processing finished");
+        ServerSocket serverSocket = new ServerSocket(8080);
+        LOGGER.info("Server started on port 8080");
+        while (true) {
+            Socket socket = serverSocket.accept();
+            LOGGER.info("Client accepted");
+            new Thread(new SocketProcessor(socket)).start();
         }
     }
 
@@ -39,6 +35,7 @@ public class WebServer {
         private final Socket socket;
         private final InputStream input;
         private final OutputStream output;
+        private String request;
 
         private SocketProcessor(Socket s) throws Throwable {
             this.socket = s;
@@ -75,12 +72,15 @@ public class WebServer {
 
         private void readInputHeaders() throws Throwable {
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
+            StringBuilder builder = new StringBuilder();
             while (true) {
                 String s = br.readLine();
                 if (s == null || s.trim().length() == 0) {
                     break;
                 }
+                builder.append(s);
             }
+            request = builder.toString();
         }
     }
 }
