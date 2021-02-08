@@ -5,10 +5,15 @@ import com.distribution.config.Config;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class WebServer {
+
     private static Logger LOGGER;
 
     static {
@@ -20,67 +25,63 @@ public class WebServer {
         }
     }
 
-    public static void main(String[] args) throws Throwable {
-        ServerSocket serverSocket = new ServerSocket(8080);
-        LOGGER.info("Server started on port 8080");
-        while (true) {
-            Socket socket = serverSocket.accept();
-            LOGGER.info("Client accepted");
-            new Thread(new SocketProcessor(socket)).start();
+    private static String[] parts;
+
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(8080)) {
+            LOGGER.info("Server started on port 8080");
+
+            while (true) {
+                Socket socket = serverSocket.accept();
+                LOGGER.info("Client connected");
+
+                new Thread(() -> handleRequest(socket)).start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private static class SocketProcessor implements Runnable {
-
-        private final Socket socket;
-        private final InputStream input;
-        private final OutputStream output;
-        private String request;
-
-        private SocketProcessor(Socket s) throws Throwable {
-            this.socket = s;
-            this.input = s.getInputStream();
-            this.output = s.getOutputStream();
+    private static void handleRequest(Socket socket) {
+        try (BufferedReader input = new BufferedReader(
+                new InputStreamReader(
+                        socket.getInputStream(), StandardCharsets.UTF_8));
+             PrintWriter output = new PrintWriter(socket.getOutputStream())
+        ) {
+            readRequest(input);
+            writeResponse(output);
+            LOGGER.info("Client disconnected");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        public void run() {
-            try {
-                readInputHeaders();
-                writeResponse("<html><body><h1>Hello from Habrahabr</h1></body></html>");
-            } catch (Throwable t) {
-                /*do nothing*/
-            } finally {
-                try {
-                    socket.close();
-                } catch (Throwable t) {
-                    /*do nothing*/
-                }
-            }
-            LOGGER.info("Client processing finished");
+    private static void readRequest(BufferedReader input) throws IOException {
+        while (!input.ready()) ;
+
+        String firstLine = input.readLine();
+        parts = firstLine.split(" ");
+        System.out.println(firstLine);
+        while (input.ready()) {
+            System.out.println(input.readLine());
         }
+    }
 
-        private void writeResponse(String s) throws Throwable {
-            String response = "HTTP/1.1 200 OK\r\n" +
-                    "Server: YarServer/2009-09-09\r\n" +
-                    "Content-Type: text/html\r\n" +
-                    "Content-Length: " + s.length() + "\r\n" +
-                    "Connection: close\r\n\r\n";
-            String result = response + s;
-            output.write(result.getBytes());
+    private static void writeResponse(PrintWriter output) throws IOException {
+        Path path = Paths.get(Config.RESOURCES_PATH, parts[1]);
+        if (!Files.exists(path)) {
+            output.println("HTTP/1.1 404 NOT_FOUND");
+            output.println("Content-Type: text/html; charset=utf-8");
+            output.println();
+            output.println("<h1>File not found!</h1>");
             output.flush();
+            return;
         }
 
-        private void readInputHeaders() throws Throwable {
-            BufferedReader br = new BufferedReader(new InputStreamReader(input));
-            StringBuilder builder = new StringBuilder();
-            while (true) {
-                String s = br.readLine();
-                if (s == null || s.trim().length() == 0) {
-                    break;
-                }
-                builder.append(s);
-            }
-            request = builder.toString();
-        }
+        output.println("HTTP/1.1 200 OK");
+        output.println("Content-Type: text/html; charset=utf-8");
+        output.println();
+
+        Files.newBufferedReader(path).transferTo(output);
     }
 }
