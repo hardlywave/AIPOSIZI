@@ -1,2 +1,118 @@
 Feb 08, 2021 7:58:46 AM com.distribution.WebServer main
 INFO: Server started on port 8080
+Feb 08, 2021 12:36:47 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 12:36:55 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:36:55 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:36:56 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:37:13 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 12:37:16 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:37:16 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:51:48 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 12:51:53 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:51:53 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:51:54 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:51:54 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:51:54 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:51:55 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:51:56 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:51:56 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:51:56 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:51:57 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:51:57 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:51:58 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:03 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:03 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:03 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:04 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:04 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:04 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:12 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:12 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:13 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:13 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:13 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:14 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:21 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:21 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:21 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:22 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:22 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:22 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:52 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:52 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:53 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:53 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:52:53 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:52:54 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 08, 2021 12:54:14 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 12:54:17 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:54:17 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:54:17 PM com.distribution.WebServer writeResponse
+WARNING: 501 NOT IMPLEMENTED
+Feb 08, 2021 12:55:09 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 12:55:11 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:55:11 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:55:40 PM com.distribution.WebServer writeResponse
+WARNING: 501 NOT IMPLEMENTED
+Feb 08, 2021 12:55:59 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 12:56:01 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:56:01 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:56:28 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 12:56:31 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 12:56:31 PM com.distribution.WebServer main
+INFO: Client connected
