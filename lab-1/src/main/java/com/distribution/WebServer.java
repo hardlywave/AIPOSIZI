@@ -37,7 +37,8 @@ public class WebServer {
             while (true) {
                 Socket socket = serverSocket.accept();
                 LOGGER.info("Client connected");
-
+                DownloadPDFTest downloadPDFTest = new DownloadPDFTest(socket);
+                //Короче в отдельном файле я сделал так, чтобы файл PDF скачивался, я его сюда сейчас запущу
                 new Thread(() -> handleRequest(socket)).start();
             }
         } catch (IOException e) {
@@ -106,17 +107,17 @@ public class WebServer {
         if(parts[1].equals("/")){
             parts[1] = mainPage;
         }else {
-            switch (parts[1]){
-                case "/downloadFile":{
+            switch (parts[1]) {
+                case "/picture.jpg": {
                     write(output, Paths.get(RESOURCES_PATH + "/picture.jpg"), CODE_200);
                     break;
                 }
-                case "/downloadArchive":{
+                case "/downloadArchive": {
 
                     break;
                 }
-                case "/downloadPDFFile":{
-                    write(output, Paths.get(RESOURCES_PATH + "/labPBZ.pdf"), CODE_200);
+                case "/labPBZ.pdf": {
+                    write(output, Paths.get(DIRECTORY_PATH + "/labPBZ.pdf"), CODE_200);
                     break;
                 } default:{
                     write(output, Paths.get(CODE_404_PATH), CODE_404);
@@ -152,4 +153,5 @@ public class WebServer {
         Files.newBufferedReader(path).transferTo(output);
         LOGGER.info(result);
     }
+
 }
