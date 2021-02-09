@@ -116,3 +116,215 @@ Feb 08, 2021 12:56:31 PM com.distribution.WebServer main
 INFO: Client connected
 Feb 08, 2021 12:56:31 PM com.distribution.WebServer main
 INFO: Client connected
+Feb 08, 2021 8:47:27 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 08, 2021 8:47:33 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 8:47:33 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 8:47:33 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 08, 2021 8:47:35 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 08, 2021 8:47:35 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:26:47 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 2:27:23 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 2:27:32 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:27:32 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:27:32 PM com.distribution.WebServer writeResponse
+WARNING: 404 NOT FOUND
+Feb 09, 2021 2:27:32 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:27:52 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 2:27:58 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:27:58 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:28:47 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:29:11 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 2:29:11 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:29:27 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 2:29:39 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:29:39 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:29:39 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 2:29:39 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:29:45 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:29:45 PM com.distribution.WebServer writeResponse
+WARNING: 404 NOT FOUND
+Feb 09, 2021 2:29:45 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:30:26 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 2:30:38 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:30:38 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:30:38 PM com.distribution.WebServer writeResponse
+WARNING: 404 NOT FOUND
+Feb 09, 2021 2:30:38 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:30:40 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:30:40 PM com.distribution.WebServer writeResponse
+WARNING: 404 NOT FOUND
+Feb 09, 2021 2:30:40 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:30:43 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:30:43 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 2:30:43 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:30:48 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:30:48 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 2:30:48 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:33:12 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:33:12 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:33:12 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 2:33:12 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:33:13 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:37:11 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:37:11 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:37:11 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 2:37:11 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:37:14 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:37:14 PM com.distribution.WebServer writeResponse
+WARNING: 404 NOT FOUND
+Feb 09, 2021 2:37:14 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:37:16 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:47:36 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 2:47:38 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:47:38 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:47:38 PM com.distribution.WebServer write
+INFO: 200 OK
+Feb 09, 2021 2:47:38 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 2:47:38 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 2:47:46 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 2:47:46 PM com.distribution.WebServer write
+INFO: 404 Not found
+Feb 09, 2021 2:47:46 PM com.distribution.WebServer writeResponse
+WARNING: 404 Not found
+Feb 09, 2021 2:47:46 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:41:54 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 3:42:03 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:42:03 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:42:03 PM com.distribution.WebServer write
+INFO: 404 Not found
+Feb 09, 2021 3:42:03 PM com.distribution.WebServer getRequestProcessing
+WARNING: 404 Not found
+Feb 09, 2021 3:42:03 PM com.distribution.WebServer write
+INFO: 200 OK
+Feb 09, 2021 3:42:03 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 3:42:03 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:42:10 PM com.distribution.WebServer write
+INFO: 404 Not found
+Feb 09, 2021 3:42:10 PM com.distribution.WebServer writeResponse
+WARNING: 404 Not found
+Feb 09, 2021 3:42:10 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:42:21 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:42:21 PM com.distribution.WebServer write
+INFO: 404 Not found
+Feb 09, 2021 3:42:21 PM com.distribution.WebServer writeResponse
+WARNING: 404 Not found
+Feb 09, 2021 3:42:21 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:42:23 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:42:23 PM com.distribution.WebServer write
+INFO: 404 Not found
+Feb 09, 2021 3:42:23 PM com.distribution.WebServer writeResponse
+WARNING: 404 Not found
+Feb 09, 2021 3:42:23 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:44:01 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 3:44:04 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:44:04 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:44:04 PM com.distribution.WebServer write
+INFO: 200 OK
+Feb 09, 2021 3:44:04 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 3:44:04 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:54:51 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:54:51 PM com.distribution.WebServer write
+INFO: 404 Not found
+Feb 09, 2021 3:54:51 PM com.distribution.WebServer writeResponse
+WARNING: 404 Not found
+Feb 09, 2021 3:54:51 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:56:07 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 3:56:14 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:56:14 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:56:14 PM com.distribution.WebServer write
+INFO: 200 OK
+Feb 09, 2021 3:56:14 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 3:56:14 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 3:59:11 PM com.distribution.WebServer main
+INFO: Server started on port 8080
+Feb 09, 2021 3:59:18 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:59:18 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 3:59:18 PM com.distribution.WebServer write
+INFO: 200 OK
+Feb 09, 2021 3:59:18 PM com.distribution.WebServer writeResponse
+INFO: 200 OK
+Feb 09, 2021 3:59:18 PM com.distribution.WebServer handleRequest
+INFO: Client disconnected
+Feb 09, 2021 4:00:40 PM com.distribution.WebServer main
+INFO: Client connected
+Feb 09, 2021 4:00:40 PM com.distribution.WebServer main
+INFO: Client connected

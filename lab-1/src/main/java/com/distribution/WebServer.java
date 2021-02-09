@@ -1,8 +1,10 @@
 package com.distribution;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -83,38 +85,49 @@ public class WebServer {
                 break;
             }
             default: {
-                output.println("HTTP/1.1 501 NOT_IMPLEMENTED");
-                output.println("Content-Type: text/html; charset=utf-8");
-                output.println();
-                output.println("<h1>Not Implemented</h1>");
-                output.flush();
-                LOGGER.warning("501 NOT IMPLEMENTED");
+                write(output, Paths.get(CODE_501_PATH), CODE_501);
+                LOGGER.warning(CODE_501);
             }
         }
+        // костыль, надеюсь временный
+
         Path path = Paths.get(RESOURCES_PATH, parts[1]);
         if (!Files.exists(path)) {
-            output.println("HTTP/1.1 404 NOT_FOUND");
-            output.println("Content-Type: text/html; charset=utf-8");
-            output.println();
-            output.println("<h1>File not found!</h1>");
-            output.flush();
-            LOGGER.warning("404 NOT FOUND");
+            write(output, Paths.get(CODE_404_PATH), CODE_404);
+            LOGGER.warning(CODE_404);
             return;
         }
-
-        output.println("HTTP/1.1 200 OK");
-        output.println("Content-Type: text/html; charset=utf-8");
-        output.println();
-
-        Files.newBufferedReader(path).transferTo(output);
-        LOGGER.info("200 OK");
+        write(output, path, CODE_200);
+        LOGGER.info(CODE_200);
     }
 
-    private static void getRequestProcessing(PrintWriter output) {
+    private static void getRequestProcessing(PrintWriter output) throws IOException {
+        String mainPage = "/HelloWorld.html";
+        if(parts[1].equals("/")){
+            parts[1] = mainPage;
+        }else {
+            switch (parts[1]){
+                case "/downloadFile":{
+                    write(output, Paths.get(RESOURCES_PATH + "/picture.jpg"), CODE_200);
+                    break;
+                }
+                case "/downloadArchive":{
 
+                    break;
+                }
+                case "/downloadPDFFile":{
+                    write(output, Paths.get(RESOURCES_PATH + "/labPBZ.pdf"), CODE_200);
+                    break;
+                } default:{
+                    write(output, Paths.get(CODE_404_PATH), CODE_404);
+                    LOGGER.warning(CODE_404);
+                }
+            }
+        }
     }
 
     private static void postRequestProcessing(PrintWriter output) {
+
 
     }
 
