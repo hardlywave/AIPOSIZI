@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.StringTokenizer;
 
 import static com.distribution.Constant.*;
+import static com.distribution.enums.HttpCode.NOT_FOUND;
 import static java.lang.String.format;
 
 public class HttpServer implements Runnable {
@@ -30,6 +31,10 @@ public class HttpServer implements Runnable {
 
     @Override
     public void run() {
+        test();
+    }
+
+    private void test(){
         String fileRequested = "";
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -46,9 +51,9 @@ public class HttpServer implements Runnable {
                 return;
             }
 
-            String method = parse.nextToken().toUpperCase();
+            String method = parse.nextToken();
             log.info("Request method: " + method);
-            fileRequested = parse.nextToken().toLowerCase();
+            fileRequested = parse.nextToken();
 
             switch (method) {
                 case "GET":
@@ -66,7 +71,7 @@ public class HttpServer implements Runnable {
             }
             log.info("File " + fileRequested + "returned");
         } catch (FileNotFoundException fnfe) {
-            log.warn(CODE_404);
+            log.warn(NOT_FOUND);
             log.warn("File: " + fileRequested + "not found, load");
         } catch (IOException ioe) {
             log.error("Server error: " + ioe.getMessage());
@@ -85,11 +90,8 @@ public class HttpServer implements Runnable {
 
     private void processGet(String fileRequested) throws IOException {
         log.info("GET request was accepted");
-        if (fileRequested.endsWith("/")) {
-            fileRequested = DEFAULT_FILE;
-        }
-        Path path = findFile(fileRequested);
-        createResponse(HttpCode.OK, path);
+
+        createResponse(HttpCode.OK, new HTML(fileRequested));
     }
 
     private void processPost() throws IOException {
@@ -108,13 +110,13 @@ public class HttpServer implements Runnable {
     private Path findFile(String fileName) throws IOException {
         Path path = Paths.get("", fileName);
         if (!Files.exists(path)) {
-            createResponse(HttpCode.NOT_FOUND, Paths.get(CODE_404_PATH));
+            createBadResponse(NOT_FOUND, Paths.get(CODE_404_PATH));
             throw new FileNotFoundException();
         }
         return Paths.get(fileName);
     }
 
-    private void createResponse(HttpCode code, Path path) throws IOException {
+    private void createBadResponse(HttpCode code, Path path) throws IOException {
         out.println(format("HTTP/1.1 %s %s", code.getCode(), code.getDescription()));
         out.println("Server: HTTP Server");
         out.println(format("Date: %s", Instant.now()));
@@ -124,6 +126,29 @@ public class HttpServer implements Runnable {
         out.println();
 
         Files.newBufferedReader(path).transferTo(out);
+        out.flush();
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ignored) {
+            log.info("Thread error.");
+        }
+        log.info("Creating header of response with code " + code.getCode());
+    }
+
+    private void createResponse(HttpCode code, HTML html) throws IOException {
+        out.println(format("HTTP/1.1 %s %s", code.getCode(), code.getDescription()));
+        out.println("Server: HTTP Server");
+        out.println(format("Date: %s", Instant.now()));
+        out.println("Access-Control-Allow-Origin: localhost");
+        out.println("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        out.println("Content-Type: text/html; charset=utf-8");
+        out.println();
+        if("".equals(html.getFileHTML())){
+            Download.download(html.getFolder(),dataOut);
+        }else {
+            out.println(html.getFileHTML());
+        }
         out.flush();
 
         try {

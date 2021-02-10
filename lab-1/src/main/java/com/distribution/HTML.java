@@ -9,24 +9,19 @@ import static java.lang.String.format;
 
 public class HTML {
 
-    public static void main(String[] args) {
-        HTML html = new HTML("/test");
-        System.out.println(html.getFileHTML());
-    }
-
-    private String fileHTML;
+    private String fileHTML = "";
     private final String path;
+    private File folder;
 
     public HTML(String path) {
         this.path = path;
-        File folder = new File(Constant.DIRECTORY_PATH + path);
-        if (folder.isFile()) {
+        folder = new File(Constant.DIRECTORY_PATH + path);
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles == null) {
             System.out.println("It is file!");
             return;
         }
-        File[] listOfFiles = folder.listFiles();
-        assert listOfFiles != null;
-        List<File> files = Arrays.stream(listOfFiles).filter(File::isFile).collect(Collectors.toList());
+        List<File> files = Arrays.stream(listOfFiles).filter(x -> x.isFile()).collect(Collectors.toList());
         List<File> directories = Arrays.stream(listOfFiles).filter(x -> !x.isFile()).collect(Collectors.toList());
         createFileHTML(files, directories);
     }
@@ -46,12 +41,12 @@ public class HTML {
         fileHTML = fileHTML + "</head>\n" + "</html>";
     }
 
-    private void createTags(boolean checkFiles, List<File> list){
-        if(list.isEmpty()) return;
+    private void createTags(boolean checkFiles, List<File> list) {
+        if (list.isEmpty()) return;
         StringBuilder builder = new StringBuilder(fileHTML);
         builder.append(createTag(2, (checkFiles) ? "Open files:" : "Open directory"));
         for (File file : list) {
-            builder.append(createTagWithLink(file));
+            builder.append((!checkFiles) ? createTagWithLink(file) : createTagWithLinkDownload(file));
         }
         fileHTML = builder.toString();
     }
@@ -62,11 +57,20 @@ public class HTML {
     }
 
     private String createTagWithLink(File file) {
-        String path = file.getPath().substring(0, Constant.DIRECTORY_PATH.length()) + "/" + file.getName();
+        String path = file.getPath().substring(Constant.DIRECTORY_PATH.length());
         return format("<p><a href=\"http://localhost:8080%s\"> Open %s</a></p>\n", path, file.getName());
+    }
+
+    private String createTagWithLinkDownload(File file) {
+        String path = file.getPath().substring(Constant.DIRECTORY_PATH.length());
+        return format("<p><a href=\"http://localhost:8080%s\" download> Open %s</a></p>\n", path, file.getName());
     }
 
     public String getFileHTML() {
         return fileHTML;
+    }
+
+    public File getFolder() {
+        return folder;
     }
 }
