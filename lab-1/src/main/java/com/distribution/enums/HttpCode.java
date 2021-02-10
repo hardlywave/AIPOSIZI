@@ -1,15 +1,12 @@
-package com.distribution;
+package com.distribution.enums;
 
-import lombok.Getter;
+import java.nio.file.Path;
 
-@Getter
 public enum HttpCode {
 
     OK(200, "OK"),
-    CREATED(201, "Created"),
-    BAD_REQUEST(400, "Bad Request"),
     NOT_FOUND(404, "Not Found"),
-    NOT_ALLOWED(405, "Not Allowed");
+    NOT_IMPLEMENTED(501, "Not implemented");
 
     private final Integer code;
     private final String description;
@@ -19,4 +16,11 @@ public enum HttpCode {
         this.description = description;
     }
 
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
