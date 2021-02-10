@@ -1,10 +1,7 @@
 package com.distribution;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,24 +26,23 @@ public class WebServer {
 
 
     private static String[] parts;
-
+    private static Socket socket;
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(8080)) {
             LOGGER.info("Server started on port 8080");
 
             while (true) {
-                Socket socket = serverSocket.accept();
+                socket = serverSocket.accept();
                 LOGGER.info("Client connected");
-                DownloadPDFTest downloadPDFTest = new DownloadPDFTest(socket);
                 //Короче в отдельном файле я сделал так, чтобы файл PDF скачивался, я его сюда сейчас запущу
-                new Thread(() -> handleRequest(socket)).start();
+                new Thread(() -> handleRequest()).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void handleRequest(Socket socket) {
+    private static void handleRequest() {
         try (BufferedReader input = new BufferedReader(
                 new InputStreamReader(
                         socket.getInputStream(), StandardCharsets.UTF_8));
@@ -90,7 +86,6 @@ public class WebServer {
                 LOGGER.warning(CODE_501);
             }
         }
-        // костыль, надеюсь временный
 
         Path path = Paths.get(RESOURCES_PATH, parts[1]);
         if (!Files.exists(path)) {
@@ -106,6 +101,7 @@ public class WebServer {
         String mainPage = "/HelloWorld.html";
         if(parts[1].equals("/")){
             parts[1] = mainPage;
+            write(output, Paths.get(RESOURCES_PATH + mainPage), CODE_200);
         }else {
             switch (parts[1]) {
                 case "/picture.jpg": {
@@ -116,8 +112,9 @@ public class WebServer {
 
                     break;
                 }
-                case "/labPBZ.pdf": {
-                    write(output, Paths.get(DIRECTORY_PATH + "/labPBZ.pdf"), CODE_200);
+                case "/downloadPDF": {
+                    new DownloadPDFTest(socket);
+//                    write(output, Paths.get(DIRECTORY_PATH + "/labPBZ.pdf"), CODE_200);
                     break;
                 } default:{
                     write(output, Paths.get(CODE_404_PATH), CODE_404);
