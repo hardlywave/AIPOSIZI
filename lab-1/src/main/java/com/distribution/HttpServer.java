@@ -76,6 +76,12 @@ public class HttpServer implements Runnable {
                 e.printStackTrace();
             }
         } catch (IOException ioe) {
+            try {
+                //сделать генерацию, когда будет убраны константы, ток генерация для 500 кода
+                createBadResponse(INTERNAL_SERVER_ERROR, Paths.get(CODE_501_PATH));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             log.error("Server error: " + ioe.getMessage());
         } finally {
             try {
