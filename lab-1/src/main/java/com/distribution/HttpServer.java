@@ -10,11 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 import static com.distribution.Constant.*;
-import static com.distribution.enums.HttpCode.NOT_FOUND;
-import static com.distribution.enums.HttpCode.NOT_IMPLEMENTED;
+import static com.distribution.enums.HttpCode.*;
 import static java.lang.String.format;
 
 public class HttpServer implements Runnable {
@@ -93,7 +93,7 @@ public class HttpServer implements Runnable {
     private void processGet(String fileRequested) throws IOException {
         log.info("GET request was accepted");
         File file = new File(DIRECTORY_PATH + fileRequested);
-        if(!file.exists() && !file.isDirectory()) {
+        if (!file.exists() && !file.isDirectory()) {
             throw new FileNotFoundException();
         }
         createResponse(HttpCode.OK, new CreatorHTML(fileRequested));
@@ -104,7 +104,8 @@ public class HttpServer implements Runnable {
     }
 
     private void processOptions() throws IOException {
-
+        log.info("OPTIONS request was accepted");
+        createResponse(OK, null);
     }
 
     private void methodNotAllowed(String method) throws IOException {
@@ -140,10 +141,12 @@ public class HttpServer implements Runnable {
         out.println("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         out.println("Content-Type: text/html; charset=utf-8");
         out.println();
-        if ("".equals(html.getFileHTML())) {
-            Download.download(html.getFolder(), dataOut);
-        } else {
-            out.println(html.getFileHTML());
+        if (!Objects.isNull(html)) {
+            if ("".equals(html.getFileHTML())) {
+                Download.download(html.getFolder(), dataOut);
+            } else {
+                out.println(html.getFileHTML());
+            }
         }
         out.flush();
 
