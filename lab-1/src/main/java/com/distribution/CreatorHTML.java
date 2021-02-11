@@ -44,7 +44,7 @@ public class CreatorHTML {
     private void createTags(boolean checkFiles, List<File> list) {
         if (list.isEmpty()) return;
         StringBuilder builder = new StringBuilder(fileHTML);
-        builder.append(createTag(2, (checkFiles) ? "Download files:" : "Download directory"));
+        builder.append(createTag(2, (checkFiles) ? "Download files:" : "Open directory"));
         for (File file : list) {
             builder.append((!checkFiles) ? createTagWithLink(file) : createTagWithLinkDownload(file));
         }
