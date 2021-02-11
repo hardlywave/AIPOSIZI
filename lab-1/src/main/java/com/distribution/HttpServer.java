@@ -17,6 +17,7 @@ public class HttpServer implements Runnable {
 
     private final Socket socket;
     private static final Logger log = LogManager.getLogger(HttpServer.class);
+    private final String DIRECTORY_PATH = System.getProperty("user.dir") + "/directory";
 
     private BufferedReader in;
     private PrintWriter out;
@@ -53,7 +54,7 @@ public class HttpServer implements Runnable {
                     processGet(fileRequested);
                     break;
                 case "POST":
-                    processPost();
+                    processPost(fileRequested);
                     break;
                 case "OPTIONS":
                     processOptions();
@@ -88,23 +89,38 @@ public class HttpServer implements Runnable {
         createResponse(HttpCode.OK, new CreatorHTML(fileRequested));
     }
 
-    private void processPost() throws IOException {
-        StringBuilder builder = new StringBuilder();
-        while (true) {
-            String s = in.readLine();
-            builder.append(s);
-            if (s == null || s.trim().length() == 0) {
-                break;
-            }
+    private void processPost(String path) throws IOException {
+        log.info("POST request was accepted");
+        File file = new File(DIRECTORY_PATH + path);
+        if (!file.exists()) {
+            throw new FileNotFoundException();
         }
+        if (!getFileExtension(file).equals("txt")){
+            createResponse(INTERNAL_SERVER_ERROR, new CreatorHTML(INTERNAL_SERVER_ERROR));
+            return;
+        }
+        FileInputStream inputStream = new FileInputStream(file.getPath());
+        var data = new byte[inputStream.available()];
+        inputStream.read(data);
+
         out.println(format("HTTP/1.1 %s %s", OK.getCode(), OK.getDescription()));
         out.println("Server: HTTP Server");
         out.println(format("Date: %s", Instant.now()));
         out.println("Access-Control-Allow-Origin: localhost");
         out.println("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-        out.println("Content-Type: text/html; charset=utf-8");
+        out.println("Content-Type: text/plain");
         out.println();
-        out.println(builder.toString());
+        out.flush();
+
+        dataOut.write(data, 0, data.length);
+        dataOut.flush();
+    }
+
+    private static String getFileExtension(File file) {
+        String fileName = file.getName();
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            return fileName.substring(fileName.lastIndexOf(".")+1);
+        else return "";
     }
 
     private void processOptions() throws IOException {
