@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.StringTokenizer;
 
-import static com.distribution.Constant.CODE_501_PATH;
+import static com.distribution.Constant.*;
 import static com.distribution.enums.HttpCode.NOT_FOUND;
 import static com.distribution.enums.HttpCode.NOT_IMPLEMENTED;
 import static java.lang.String.format;
@@ -32,10 +32,6 @@ public class HttpServer implements Runnable {
 
     @Override
     public void run() {
-        test();
-    }
-
-    private void test() {
         String fileRequested = "";
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -74,6 +70,11 @@ public class HttpServer implements Runnable {
         } catch (FileNotFoundException fnfe) {
             log.warn(NOT_FOUND);
             log.warn("File: " + fileRequested + "not found, load");
+            try {
+                createBadResponse(NOT_FOUND, Paths.get(CODE_404_PATH));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (IOException ioe) {
             log.error("Server error: " + ioe.getMessage());
         } finally {
@@ -91,7 +92,10 @@ public class HttpServer implements Runnable {
 
     private void processGet(String fileRequested) throws IOException {
         log.info("GET request was accepted");
-
+        File file = new File(DIRECTORY_PATH + fileRequested);
+        if(!file.exists() && !file.isDirectory()) {
+            throw new FileNotFoundException();
+        }
         createResponse(HttpCode.OK, new CreatorHTML(fileRequested));
     }
 
@@ -104,9 +108,8 @@ public class HttpServer implements Runnable {
     }
 
     private void methodNotAllowed(String method) throws IOException {
-        log.warn("Unknown method: " + method);
         createBadResponse(NOT_IMPLEMENTED, Paths.get(CODE_501_PATH));
-        //
+        log.warn("Unknown method: " + method);
     }
 
     private void createBadResponse(HttpCode code, Path path) throws IOException {
