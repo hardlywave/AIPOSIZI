@@ -1,7 +1,5 @@
 package com.distribution.enums;
 
-import java.nio.file.Path;
-
 public enum HttpCode {
 
     OK(200, "OK"),

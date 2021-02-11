@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
-public class HTML {
+public class CreatorHTML {
 
     private String fileHTML = "";
     private final String path;
-    private File folder;
+    private final File folder;
 
-    public HTML(String path) {
+    public CreatorHTML(String path) {
         this.path = path;
         folder = new File(Constant.DIRECTORY_PATH + path);
         File[] listOfFiles = folder.listFiles();
@@ -21,7 +21,7 @@ public class HTML {
             System.out.println("It is file!");
             return;
         }
-        List<File> files = Arrays.stream(listOfFiles).filter(x -> x.isFile()).collect(Collectors.toList());
+        List<File> files = Arrays.stream(listOfFiles).filter(File::isFile).collect(Collectors.toList());
         List<File> directories = Arrays.stream(listOfFiles).filter(x -> !x.isFile()).collect(Collectors.toList());
         createFileHTML(files, directories);
     }
@@ -51,7 +51,6 @@ public class HTML {
         fileHTML = builder.toString();
     }
 
-    // name?
     private String createTag(int size, String message) {
         return format("<h%d>%s</h%d>\n", size, message, size);
     }

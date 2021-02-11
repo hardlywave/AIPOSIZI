@@ -12,13 +12,14 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.StringTokenizer;
 
-import static com.distribution.Constant.*;
+import static com.distribution.Constant.CODE_501_PATH;
 import static com.distribution.enums.HttpCode.NOT_FOUND;
+import static com.distribution.enums.HttpCode.NOT_IMPLEMENTED;
 import static java.lang.String.format;
 
 public class HttpServer implements Runnable {
 
-    private Socket socket;
+    private final Socket socket;
     private static final Logger log = LogManager.getLogger(HttpServer.class);
 
     private BufferedReader in;
@@ -34,7 +35,7 @@ public class HttpServer implements Runnable {
         test();
     }
 
-    private void test(){
+    private void test() {
         String fileRequested = "";
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -91,7 +92,7 @@ public class HttpServer implements Runnable {
     private void processGet(String fileRequested) throws IOException {
         log.info("GET request was accepted");
 
-        createResponse(HttpCode.OK, new HTML(fileRequested));
+        createResponse(HttpCode.OK, new CreatorHTML(fileRequested));
     }
 
     private void processPost() throws IOException {
@@ -104,16 +105,8 @@ public class HttpServer implements Runnable {
 
     private void methodNotAllowed(String method) throws IOException {
         log.warn("Unknown method: " + method);
+        createBadResponse(NOT_IMPLEMENTED, Paths.get(CODE_501_PATH));
         //
-    }
-
-    private Path findFile(String fileName) throws IOException {
-        Path path = Paths.get("", fileName);
-        if (!Files.exists(path)) {
-            createBadResponse(NOT_FOUND, Paths.get(CODE_404_PATH));
-            throw new FileNotFoundException();
-        }
-        return Paths.get(fileName);
     }
 
     private void createBadResponse(HttpCode code, Path path) throws IOException {
@@ -136,7 +129,7 @@ public class HttpServer implements Runnable {
         log.info("Creating header of response with code " + code.getCode());
     }
 
-    private void createResponse(HttpCode code, HTML html) throws IOException {
+    private void createResponse(HttpCode code, CreatorHTML html) {
         out.println(format("HTTP/1.1 %s %s", code.getCode(), code.getDescription()));
         out.println("Server: HTTP Server");
         out.println(format("Date: %s", Instant.now()));
@@ -144,9 +137,9 @@ public class HttpServer implements Runnable {
         out.println("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         out.println("Content-Type: text/html; charset=utf-8");
         out.println();
-        if("".equals(html.getFileHTML())){
-            Download.download(html.getFolder(),dataOut);
-        }else {
+        if ("".equals(html.getFileHTML())) {
+            Download.download(html.getFolder(), dataOut);
+        } else {
             out.println(html.getFileHTML());
         }
         out.flush();

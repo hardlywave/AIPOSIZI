@@ -1,18 +1,13 @@
 package com.distribution;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 import java.net.SocketException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.distribution.Constant.DIRECTORY_PATH;
-
 public class Download {
-    public static void download(File file, OutputStream out) throws IOException {
+    public static void download(File file, OutputStream out) {
         try {
             //Для понимания, какой файл нужно скачать, выесняет на что заканчивается адресс сервера и создает название файла
             //
@@ -26,9 +21,9 @@ public class Download {
             Files.copy(Paths.get(file.getPath()), out);
             System.out.println("File upload completed!");
             out.close();
-        }catch(SocketException e) {
+        } catch (SocketException e) {
             System.out.println(e.getMessage());
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
