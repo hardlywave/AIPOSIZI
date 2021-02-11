@@ -44,7 +44,7 @@ public class CreatorHTML {
     private void createTags(boolean checkFiles, List<File> list) {
         if (list.isEmpty()) return;
         StringBuilder builder = new StringBuilder(fileHTML);
-        builder.append(createTag(2, (checkFiles) ? "Open files:" : "Open directory"));
+        builder.append(createTag(2, (checkFiles) ? "Download files:" : "Download directory"));
         for (File file : list) {
             builder.append((!checkFiles) ? createTagWithLink(file) : createTagWithLinkDownload(file));
         }
@@ -57,12 +57,12 @@ public class CreatorHTML {
 
     private String createTagWithLink(File file) {
         String path = file.getPath().substring(Constant.DIRECTORY_PATH.length());
-        return format("<p><a href=\"http://localhost:8080%s\"> Open %s</a></p>\n", path, file.getName());
+        return format("<p><a href=\"http://localhost:8080%s\"> download %s</a></p>\n", path, file.getName());
     }
 
     private String createTagWithLinkDownload(File file) {
         String path = file.getPath().substring(Constant.DIRECTORY_PATH.length());
-        return format("<p><a href=\"http://localhost:8080%s\" download> Open %s</a></p>\n", path, file.getName());
+        return format("<p><a href=\"http://localhost:8080%s\" download> download %s</a></p>\n", path, file.getName());
     }
 
     public String getFileHTML() {
