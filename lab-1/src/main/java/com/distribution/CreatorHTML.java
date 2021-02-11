@@ -1,6 +1,9 @@
 package com.distribution;
 
+import com.distribution.enums.HttpCode;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,12 +13,17 @@ import static java.lang.String.format;
 public class CreatorHTML {
 
     private String fileHTML = "";
-    private final String path;
-    private final File folder;
+    private String path;
+    private File folder;
+    private final String DIRECTORY_PATH = System.getProperty("user.dir") + "/directory";
 
-    public CreatorHTML(String path) {
+    public CreatorHTML(String path) throws FileNotFoundException {
         this.path = path;
-        folder = new File(Constant.DIRECTORY_PATH + path);
+        File file = new File(DIRECTORY_PATH + path);
+        if (!file.exists() && !file.isDirectory()) {
+            throw new FileNotFoundException();
+        }
+        folder = new File(DIRECTORY_PATH + path);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {
             System.out.println("It is file!");
@@ -26,15 +34,22 @@ public class CreatorHTML {
         createFileHTML(files, directories);
     }
 
+    public CreatorHTML(HttpCode code) {
+        createStartFile();
+        fileHTML = fileHTML + createTag(1,code.getDescription());
+        createEndFile();
+    }
+
     private void createFileHTML(List<File> files, List<File> directories) {
         createStartFile();
+        fileHTML = fileHTML + createTag(1, path);
         createTags(false, directories);
         createTags(true, files);
         createEndFile();
     }
 
     private void createStartFile() {
-        fileHTML = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n" + createTag(1, path);
+        fileHTML = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n";
     }
 
     private void createEndFile() {
@@ -56,12 +71,12 @@ public class CreatorHTML {
     }
 
     private String createTagWithLink(File file) {
-        String path = file.getPath().substring(Constant.DIRECTORY_PATH.length());
+        String path = file.getPath().substring(DIRECTORY_PATH.length());
         return format("<p><a href=\"http://localhost:8080%s\"> download %s</a></p>\n", path, file.getName());
     }
 
     private String createTagWithLinkDownload(File file) {
-        String path = file.getPath().substring(Constant.DIRECTORY_PATH.length());
+        String path = file.getPath().substring(DIRECTORY_PATH.length());
         return format("<p><a href=\"http://localhost:8080%s\" download> download %s</a></p>\n", path, file.getName());
     }
 

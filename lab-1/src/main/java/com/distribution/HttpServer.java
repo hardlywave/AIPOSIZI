@@ -6,14 +6,10 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
-import static com.distribution.Constant.*;
 import static com.distribution.enums.HttpCode.*;
 import static java.lang.String.format;
 
@@ -70,18 +66,9 @@ public class HttpServer implements Runnable {
         } catch (FileNotFoundException fnfe) {
             log.warn(NOT_FOUND);
             log.warn("File: " + fileRequested + "not found, load");
-            try {
-                createBadResponse(NOT_FOUND, Paths.get(CODE_404_PATH));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            createResponse(NOT_FOUND, new CreatorHTML(NOT_FOUND));
         } catch (IOException ioe) {
-            try {
-                //сделать генерацию, когда будет убраны константы, ток генерация для 500 кода
-                createBadResponse(INTERNAL_SERVER_ERROR, Paths.get(CODE_501_PATH));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            createResponse(INTERNAL_SERVER_ERROR, new CreatorHTML(INTERNAL_SERVER_ERROR));
             log.error("Server error: " + ioe.getMessage());
         } finally {
             try {
@@ -98,15 +85,26 @@ public class HttpServer implements Runnable {
 
     private void processGet(String fileRequested) throws IOException {
         log.info("GET request was accepted");
-        File file = new File(DIRECTORY_PATH + fileRequested);
-        if (!file.exists() && !file.isDirectory()) {
-            throw new FileNotFoundException();
-        }
         createResponse(HttpCode.OK, new CreatorHTML(fileRequested));
     }
 
     private void processPost() throws IOException {
-
+        StringBuilder builder = new StringBuilder();
+        while (true) {
+            String s = in.readLine();
+            builder.append(s);
+            if (s == null || s.trim().length() == 0) {
+                break;
+            }
+        }
+        out.println(format("HTTP/1.1 %s %s", OK.getCode(), OK.getDescription()));
+        out.println("Server: HTTP Server");
+        out.println(format("Date: %s", Instant.now()));
+        out.println("Access-Control-Allow-Origin: localhost");
+        out.println("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        out.println("Content-Type: text/html; charset=utf-8");
+        out.println();
+        out.println(builder.toString());
     }
 
     private void processOptions() throws IOException {
@@ -115,28 +113,8 @@ public class HttpServer implements Runnable {
     }
 
     private void methodNotAllowed(String method) throws IOException {
-        createBadResponse(NOT_IMPLEMENTED, Paths.get(CODE_501_PATH));
+        createResponse(NOT_IMPLEMENTED, new CreatorHTML(NOT_IMPLEMENTED));
         log.warn("Unknown method: " + method);
-    }
-
-    private void createBadResponse(HttpCode code, Path path) throws IOException {
-        out.println(format("HTTP/1.1 %s %s", code.getCode(), code.getDescription()));
-        out.println("Server: HTTP Server");
-        out.println(format("Date: %s", Instant.now()));
-        out.println("Access-Control-Allow-Origin: localhost");
-        out.println("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-        out.println("Content-Type: text/html; charset=utf-8");
-        out.println();
-
-        Files.newBufferedReader(path).transferTo(out);
-        out.flush();
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ignored) {
-            log.info("Thread error.");
-        }
-        log.info("Creating header of response with code " + code.getCode());
     }
 
     private void createResponse(HttpCode code, CreatorHTML html) {
