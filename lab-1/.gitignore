@@ -20,4 +20,5 @@
 *.zip
 *.tar.gz
 *.rar
-log.0.0.txt
+log.txt
+/log.txt.lck
