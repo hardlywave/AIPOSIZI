@@ -1,6 +1,5 @@
 package com.distribution;
 
-import com.distribution.enums.HttpCode;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -10,7 +9,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
-import static com.distribution.enums.HttpCode.*;
+import static com.distribution.HttpCode.*;
 import static java.lang.String.format;
 
 public class HttpServer implements Runnable {
@@ -95,7 +94,7 @@ public class HttpServer implements Runnable {
         if (!file.exists()) {
             throw new FileNotFoundException();
         }
-        if (!getFileExtension(file).equals("txt")){
+        if (!getFileExtension(file).equals("txt")) {
             createResponse(INTERNAL_SERVER_ERROR, new CreatorHTML(INTERNAL_SERVER_ERROR));
             return;
         }
@@ -118,8 +117,8 @@ public class HttpServer implements Runnable {
 
     private static String getFileExtension(File file) {
         String fileName = file.getName();
-        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
-            return fileName.substring(fileName.lastIndexOf(".")+1);
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
         else return "";
     }
 

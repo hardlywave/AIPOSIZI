@@ -1,9 +1,8 @@
-package com.distribution.enums;
+package com.distribution;
 
 public enum HttpCode {
 
     OK(200, "OK"),
-    FORBIDDEN(403, "Forbidden"),
     NOT_FOUND(404, "Not Found"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     NOT_IMPLEMENTED(501, "Not implemented");

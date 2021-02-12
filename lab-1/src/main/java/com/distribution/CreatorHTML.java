@@ -1,7 +1,5 @@
 package com.distribution;
 
-import com.distribution.enums.HttpCode;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -36,7 +34,7 @@ public class CreatorHTML {
 
     public CreatorHTML(HttpCode code) {
         createStartFile();
-        fileHTML = fileHTML + createTag(1,code.getDescription());
+        fileHTML = fileHTML + createTag(1, code.getDescription());
         createEndFile();
     }
 
