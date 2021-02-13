@@ -1,4 +1,4 @@
-package com.distribution;
+package com.distribution.enums;
 
 public enum HttpCode {
 

@@ -1,5 +1,7 @@
 package com.distribution;
 
+import com.distribution.enums.HttpCode;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -12,7 +14,6 @@ public class CreatorHTML {
 
     private String fileHTML = "";
     private String path;
-    private File folder;
     private final String DIRECTORY_PATH = System.getProperty("user.dir") + "/directory";
 
     public CreatorHTML(String path) throws FileNotFoundException {
@@ -21,7 +22,7 @@ public class CreatorHTML {
         if (!file.exists() && !file.isDirectory()) {
             throw new FileNotFoundException();
         }
-        folder = new File(DIRECTORY_PATH + path);
+        File folder = new File(DIRECTORY_PATH + path);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {
             System.out.println("It is file!");
@@ -59,7 +60,7 @@ public class CreatorHTML {
         StringBuilder builder = new StringBuilder(fileHTML);
         builder.append(createTag(2, (checkFiles) ? "Download files:" : "Open directory"));
         for (File file : list) {
-            builder.append((!checkFiles) ? createTagWithLink(file) : createTagWithLinkDownload(file));
+            builder.append(createTagWithLink(file));
         }
         fileHTML = builder.toString();
     }
@@ -70,19 +71,10 @@ public class CreatorHTML {
 
     private String createTagWithLink(File file) {
         String path = file.getPath().substring(DIRECTORY_PATH.length());
-        return format("<p><a href=\"http://localhost:8080%s\"> download %s</a></p>\n", path, file.getName());
-    }
-
-    private String createTagWithLinkDownload(File file) {
-        String path = file.getPath().substring(DIRECTORY_PATH.length());
-        return format("<p><a href=\"http://localhost:8080%s\" download> download %s</a></p>\n", path, file.getName());
+        return format("<p><a href=\"http://localhost:8080%s\"> open %s</a></p>\n", path, file.getName());
     }
 
     public String getFileHTML() {
         return fileHTML;
-    }
-
-    public File getFolder() {
-        return folder;
     }
 }
