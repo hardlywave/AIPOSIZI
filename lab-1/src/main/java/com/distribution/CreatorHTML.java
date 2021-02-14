@@ -8,13 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.distribution.Main.DIRECTORY_PATH;
 import static java.lang.String.format;
 
 public class CreatorHTML {
 
     private String fileHTML = "";
     private String path;
-    private final String DIRECTORY_PATH = System.getProperty("user.dir") + "/directory";
 
     public CreatorHTML(String path) throws FileNotFoundException {
         this.path = path;

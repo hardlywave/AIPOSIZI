@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
+import static com.distribution.Main.DIRECTORY_PATH;
 import static com.distribution.enums.ContentType.findByFileName;
 import static com.distribution.enums.HttpCode.*;
 import static java.lang.String.format;
@@ -18,7 +19,6 @@ import static java.lang.String.format;
 public class HttpServer implements Runnable {
     private final Socket socket;
     private static final Logger log = LogManager.getLogger(HttpServer.class);
-    private final String DIRECTORY_PATH = System.getProperty("user.dir") + "/directory";
 
     private BufferedReader in;
     private PrintWriter out;
@@ -88,6 +88,10 @@ public class HttpServer implements Runnable {
     private void processGet(String fileRequested) throws IOException {
         log.info("GET request was accepted");
         CreatorHTML html = new CreatorHTML(fileRequested);
+        if ((DIRECTORY_PATH + fileRequested).contains(Main.FORBIDDEN)) {
+            createResponse(FORBIDDEN, new CreatorHTML(FORBIDDEN));
+            return;
+        }
         if ("".equals(html.getFileHTML())) {
             InputStream inputStream = findFile(fileRequested);
             ContentType content = findByFileName(fileRequested);
@@ -110,6 +114,10 @@ public class HttpServer implements Runnable {
     private void processPost(String path) throws IOException {
         log.info("POST request was accepted");
         File file = new File(DIRECTORY_PATH + path);
+        if (file.getPath().contains(Main.FORBIDDEN)) {
+            createResponse(FORBIDDEN, new CreatorHTML(FORBIDDEN));
+            return;
+        }
         if (!file.exists()) {
             throw new FileNotFoundException();
         }
