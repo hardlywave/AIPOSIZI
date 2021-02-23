@@ -38,39 +38,40 @@
                 <a class="nav-link" th:href="@{/keys}">Keys</a>
             </li>
         </ul>
-
-        <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/register}">Register</a>
-        </form>
     </div>
 </nav>
 
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/reviews/create}">Add Review</a>
+            </form>
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Registration date</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Game</th>
+                    <th scope="col">Review</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${users.isEmpty()}">
+                <tr th:if="${reviews.isEmpty()}">
                     <td class="text-center" colspan="5">No data</td>
                 </tr>
-                <tr th:if="${users.size() > 0}" th:each="user : ${users}">
-                    <th scope="row" th:text="*{user.id}"></th>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.username}"></td>
-                    <td th:text="${user.date}"></td>
+                <tr th:if="${reviews.size() > 0}" th:each="review : ${reviews}">
+                    <th scope="row" th:text="*{review.id}"></th>
+                    <td th:text="${review.author}"></td>
+                    <td th:text="${review.game}"></td>
+                    <td th:text="${review.review}"></td>
+                    <td th:text="${review.date}"></td>
                     <td>
-                        <a class="btn btn-success" th:href="@{/users/update/{id}(id=${user.id})}"><i
+                        <a class="btn btn-success" th:href="@{/reviews/update/{id}(id=${review.id})}"><i
                                 class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" th:href="@{/users/delete/{id}(id=${user.id})}"><i
+                        <a class="btn btn-danger" th:href="@{/reviews/delete/{id}(id=${review.id})}"><i
                                 class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>

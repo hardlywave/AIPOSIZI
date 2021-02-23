@@ -45,26 +45,26 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <form th:action="@{/games/create}" method="post" th:object="${game}">
+            <form th:action="@{/reviews/create}" method="post" th:object="${review}">
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" th:field="*{name}" placeholder="Enter name">
-                    <small class="text-danger" th:each="err: ${#fields.errors('name')}" th:text="${err}"></small>
+                    <label>Author</label>
+                    <input type="text" class="form-control" th:field="*{author}" placeholder="Enter author">
+                    <small class="text-danger" th:each="err: ${#fields.errors('author')}" th:text="${err}"></small>
                 </div>
                 <div class="form-group">
-                    <label>Price</label>
-                    <input type="text" class="form-control" th:field="*{price}" placeholder="Enter price">
-                    <small class="text-danger" th:each="err: ${#fields.errors('price')}" th:text="${err}"></small>
+                    <label>Game</label>
+                    <input type="text" class="form-control" th:field="*{game}" placeholder="Enter Game">
+                    <small class="text-danger" th:each="err: ${#fields.errors('game')}" th:text="${err}"></small>
                 </div>
                 <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" class="form-control" th:field="*{description}" placeholder="Enter Description">
-                    <small class="text-danger" th:each="err: ${#fields.errors('description')}" th:text="${err}"></small>
+                    <label>Review</label>
+                    <input type="text" class="form-control" th:field="*{review}" placeholder="Enter review">
+                    <small class="text-danger" th:each="err: ${#fields.errors('review')}" th:text="${err}"></small>
                 </div>
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="text" class="form-control" th:field="*{targetDate}" placeholder="Enter Date">
-                    <small class="text-danger" th:each="err: ${#fields.errors('targetDate')}" th:text="${err}"></small>
+                    <input type="text" class="form-control" th:field="*{date}" placeholder="Enter Date">
+                    <small class="text-danger" th:each="err: ${#fields.errors('date')}" th:text="${err}"></small>
                 </div>
                 <button type="submit" class="btn btn-primary">Add</button>
             </form>

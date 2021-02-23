@@ -2,6 +2,7 @@ package com.iit.lab2.service;
 
 import com.iit.lab2.persist.entity.Review;
 import com.iit.lab2.persist.repo.ReviewRepository;
+import com.iit.lab2.repr.ReviewRepr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    public void create(Review review) {
+    public void create(ReviewRepr review) {
         Review newReview = new Review();
         newReview.setAuthor(review.getAuthor());
         newReview.setReview(review.getReview());
@@ -44,7 +45,13 @@ public class ReviewService {
         return reviewRepository.findById(id);
     }
 
-    public void update(Review review) {
-        reviewRepository.save(review);
+    public void update(ReviewRepr review) {
+        Review newReview = new Review();
+        newReview.setId(review.getId());
+        newReview.setReview(review.getReview());
+        newReview.setDate(review.getDate());
+        newReview.setGame(review.getGame());
+        newReview.setAuthor(review.getAuthor());
+        reviewRepository.save(newReview);
     }
 }
