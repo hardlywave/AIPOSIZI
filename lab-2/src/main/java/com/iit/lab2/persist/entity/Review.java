@@ -1,4 +1,4 @@
-package com.iit.ad.model.entity;
+package com.iit.lab2.persist.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
