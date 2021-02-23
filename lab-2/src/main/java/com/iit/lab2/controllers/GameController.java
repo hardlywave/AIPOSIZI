@@ -1,6 +1,7 @@
 package com.iit.lab2.controllers;
 
 import com.iit.lab2.persist.entity.Game;
+import com.iit.lab2.repr.GameRepr;
 import com.iit.lab2.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public String getGames(Model model){
+    public String getGames(Model model) {
         List<Game> gameList = gameService.findAll();
         model.addAttribute("games", gameList);
         return "games";
@@ -34,55 +35,56 @@ public class GameController {
     @GetMapping("/games/delete/{id}")
     public String deleteGame(@PathVariable Long id) {
         gameService.delete(id);
-        return "redirect:games";
+        return "redirect:/games";
     }
 
     @GetMapping("/games/update/{id}")
-    public String updateGame(@PathVariable Long id, Model model){
+    public String updateGame(@PathVariable Long id, Model model) {
         Optional<Game> game = gameService.findById(id);
-        if(game.isPresent()){
-            model.addAttribute("game", game.get());
+        if (game.isPresent()) {
+            model.addAttribute("game", new GameRepr(game.get()));
             return "updateGame";
-        }else {
+        } else {
             return "games";
         }
     }
 
     @PostMapping("/games/update/{id}")
-    public String updateGame(@PathVariable Long id, @ModelAttribute("game") @Valid Game game,
-                                  BindingResult result) {
+    public String updateGame(@PathVariable Long id, @ModelAttribute("game") @Valid GameRepr game,
+                             BindingResult result) {
         if (result.hasErrors()) {
             return "updateGame";
         }
-        Game oldGame = gameService.findById(game.getId()).get();
-        if(!oldGame.getName().equals(game.getName())){
+        Game oldGame = gameService.findById(id).get();
+        if (!oldGame.getName().equals(game.getName())) {
             if (gameService.findByName(game.getName()).isPresent()) {
                 result.rejectValue("name", "", "Name is exist");
                 return "updateGame";
             }
         }
-        gameService.update(game);
+        oldGame.setDate(game.getTargetDate());
+        oldGame.setDescription(game.getDescription());
+        oldGame.setPrice(game.getPrice());
+        oldGame.setName(game.getName());
+        gameService.update(oldGame);
         return "redirect:/games";
     }
 
     @GetMapping("/games/create")
     public String registerPage(Model model) {
-        model.addAttribute("game", new Game());
+        model.addAttribute("game", new GameRepr());
         return "createGame";
     }
 
     @PostMapping("/games/create")
-    public String registerNewGame(@ModelAttribute("game") @Valid Game game,
+    public String registerNewGame(@ModelAttribute("game") @Valid GameRepr game,
                                   BindingResult result) {
         if (result.hasErrors()) {
             return "createGame";
         }
-        Game oldGame = gameService.findById(game.getId()).get();
-        if(!oldGame.getName().equals(game.getName())){
-            if (gameService.findByName(game.getName()).isPresent()) {
-                result.rejectValue("name", "", "Name is exist");
-                return "createGame";
-            }
+        if (gameService.findByName(game.getName()).isPresent()) {
+            result.rejectValue("name", "", "Name is exist");
+            return "createGame";
         }
         gameService.create(game);
         return "redirect:/games";

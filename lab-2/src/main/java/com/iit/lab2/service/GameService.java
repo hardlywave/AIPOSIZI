@@ -2,6 +2,7 @@ package com.iit.lab2.service;
 
 import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.persist.repo.GameRepository;
+import com.iit.lab2.repr.GameRepr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,11 @@ public class GameService {
     }
 
 
-    public void create(Game game) {
+    public void create(GameRepr game) {
         Game newGame = new Game();
-        newGame.setDate(game.getDate());
+        newGame.setDate(game.getTargetDate());
         newGame.setDescription(game.getDescription());
-        newGame.setName(game.getDescription());
+        newGame.setName(game.getName());
         newGame.setPrice(game.getPrice());
         gameRepository.save(newGame);
     }
