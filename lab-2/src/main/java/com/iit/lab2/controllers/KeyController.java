@@ -1,6 +1,8 @@
 package com.iit.lab2.controllers;
 
 import com.iit.lab2.persist.entity.Key;
+import com.iit.lab2.repr.KeyRepr;
+import com.iit.lab2.service.GameService;
 import com.iit.lab2.service.KeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class KeyController {
 
     private final KeyService keyService;
+    private final GameService gameService;
 
     @Autowired
-    public KeyController(KeyService keyService) {
+    public KeyController(KeyService keyService, GameService gameService) {
         this.keyService = keyService;
+        this.gameService = gameService;
     }
 
     @GetMapping("/keys")
@@ -35,14 +39,14 @@ public class KeyController {
     @GetMapping("/keys/delete/{id}")
     public String deleteKey(@PathVariable Long id) {
         keyService.delete(id);
-        return "redirect:keys";
+        return "redirect:/keys";
     }
 
     @GetMapping("/keys/update/{id}")
     public String updateKey(@PathVariable Long id, Model model) {
         Optional<Key> key = keyService.findById(id);
         if (key.isPresent()) {
-            model.addAttribute("key", key.get());
+            model.addAttribute("key", new KeyRepr(key.get()));
             return "updateKey";
         } else {
             return "keys";
@@ -50,25 +54,34 @@ public class KeyController {
     }
 
     @PostMapping("/keys/update/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute("key") @Valid Key key,
+    public String update(@PathVariable Long id, @ModelAttribute("key") @Valid KeyRepr key,
                          BindingResult result) {
         if (result.hasErrors()) {
             return "updateKey";
         }
+        if(!gameService.findByName(key.getGame()).isPresent()){
+            result.rejectValue("game", "", "Game is not exist");
+            return "updateKey";
+        }
+        key.setId(id);
         keyService.update(key);
         return "redirect:/keys";
     }
 
     @GetMapping("/keys/create")
     public String registerPage(Model model) {
-        model.addAttribute("key", new Key());
+        model.addAttribute("key", new KeyRepr());
         return "createKey";
     }
 
     @PostMapping("/keys/create")
-    public String createNewKey(@ModelAttribute("key") @Valid Key key,
+    public String createNewKey(@ModelAttribute("key") @Valid KeyRepr key,
                                BindingResult result) {
         if (result.hasErrors()) {
+            return "createKey";
+        }
+        if(!gameService.findByName(key.getGame()).isPresent()){
+            result.rejectValue("game", "", "Game is not exist");
             return "createKey";
         }
         keyService.create(key);

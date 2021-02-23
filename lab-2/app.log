@@ -1,0 +1,34 @@
+2021-02-23 13:33:07.222  INFO 10555 --- [main] com.iit.lab2.Lab2Application             : Starting Lab2Application on alex-ThinkPad-L380 with PID 10555 (/home/alex/IdeaProjects/AIPOSIZI/lab-2/target/classes started by alex in /home/alex/IdeaProjects/AIPOSIZI/lab-2)
+2021-02-23 13:33:07.225  INFO 10555 --- [main] com.iit.lab2.Lab2Application             : No active profile set, falling back to default profiles: default
+2021-02-23 13:33:07.896  INFO 10555 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2021-02-23 13:33:07.938  INFO 10555 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38ms. Found 4 repository interfaces.
+2021-02-23 13:33:08.155  INFO 10555 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$54b0c55e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-02-23 13:33:08.316  INFO 10555 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2021-02-23 13:33:08.336  INFO 10555 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-02-23 13:33:08.336  INFO 10555 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.24]
+2021-02-23 13:33:08.425  INFO 10555 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-02-23 13:33:08.529  INFO 10555 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-02-23 13:33:08.572  INFO 10555 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-02-23 13:33:08.603  INFO 10555 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2021-02-23 13:33:08.635  INFO 10555 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.11.Final}
+2021-02-23 13:33:08.636  INFO 10555 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2021-02-23 13:33:08.708  INFO 10555 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2021-02-23 13:33:08.802  INFO 10555 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL95Dialect
+2021-02-23 13:33:08.864  INFO 10555 --- [main] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000421: Disabling contextual LOB creation as hibernate.jdbc.lob.non_contextual_creation is true
+2021-02-23 13:33:08.867  INFO 10555 --- [main] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@7d2c345d
+2021-02-23 13:33:09.196  INFO 10555 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-02-23 13:33:09.580  INFO 10555 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-02-23 13:33:09.604  WARN 10555 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-02-23 13:33:09.636  INFO 10555 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-02-23 13:33:09.763  INFO 10555 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2021-02-23 13:33:09.765  INFO 10555 --- [main] com.iit.lab2.Lab2Application             : Started Lab2Application in 2.877 seconds (JVM running for 3.437)
+2021-02-23 13:33:19.489  INFO 10555 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-02-23 13:33:19.543  INFO 10555 --- [http-nio-8082-exec-1] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2021-02-23 13:33:19.605  INFO 10555 --- [http-nio-8082-exec-1] com.iit.lab2.service.GameService         : 2 addresses was found
+2021-02-23 13:33:54.940  INFO 10555 --- [http-nio-8082-exec-3] com.iit.lab2.service.GameService         : Game with id 7 was found
+2021-02-23 13:33:59.687  INFO 10555 --- [http-nio-8082-exec-4] com.iit.lab2.service.GameService         : Game with id 7 was found
+2021-02-23 13:33:59.704  INFO 10555 --- [http-nio-8082-exec-4] com.iit.lab2.service.GameService         : A game named ИИ wasn't found
+2021-02-23 13:33:59.710  INFO 10555 --- [http-nio-8082-exec-4] com.iit.lab2.service.GameService         : The game has been updated
+2021-02-23 13:33:59.732  INFO 10555 --- [http-nio-8082-exec-5] com.iit.lab2.service.GameService         : 2 addresses was found

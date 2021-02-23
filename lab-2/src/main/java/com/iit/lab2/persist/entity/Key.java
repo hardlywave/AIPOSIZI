@@ -11,7 +11,7 @@ public class Key {
     @Column(unique = true, nullable = false)
     private String key;
     @Column(nullable = false)
-    private String Game;
+    private String game;
     public Key() {
     }
 
@@ -32,10 +32,10 @@ public class Key {
     }
 
     public String getGame() {
-        return Game;
+        return game;
     }
 
     public void setGame(String game) {
-        Game = game;
+        this.game = game;
     }
 }

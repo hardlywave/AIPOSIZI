@@ -3,6 +3,7 @@ package com.iit.lab2.controllers;
 import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.repr.GameRepr;
 import com.iit.lab2.service.GameService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
