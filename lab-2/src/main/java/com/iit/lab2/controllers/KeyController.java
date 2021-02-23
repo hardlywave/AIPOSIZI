@@ -71,7 +71,7 @@ public class KeyController {
         if (result.hasErrors()) {
             return "createKey";
         }
-        keyService.update(key);
+        keyService.create(key);
         return "redirect:/keys";
     }
 }

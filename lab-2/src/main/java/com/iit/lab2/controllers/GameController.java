@@ -84,7 +84,7 @@ public class GameController {
                 return "createGame";
             }
         }
-        gameService.update(game);
+        gameService.create(game);
         return "redirect:/games";
     }
 }

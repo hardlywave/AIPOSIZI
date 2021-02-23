@@ -21,7 +21,12 @@ public class ReviewService {
     }
 
     public void create(Review review) {
-        reviewRepository.save(review);
+        Review newReview = new Review();
+        newReview.setAuthor(review.getAuthor());
+        newReview.setReview(review.getReview());
+        newReview.setGame(review.getGame());
+        newReview.setDate(review.getDate());
+        reviewRepository.save(newReview);
     }
 
     public List<Review> findAll() {

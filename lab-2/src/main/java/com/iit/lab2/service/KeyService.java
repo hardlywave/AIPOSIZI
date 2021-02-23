@@ -21,7 +21,10 @@ public class KeyService {
     }
 
     public void create(Key key) {
-        keyRepository.save(key);
+        Key newKey = new Key();
+        newKey.setKey(key.getKey());
+        newKey.setGame(key.getGame());
+        keyRepository.save(newKey);
     }
 
     public List<Key> findAll() {

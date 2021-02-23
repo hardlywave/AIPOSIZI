@@ -23,7 +23,12 @@ public class GameService {
 
 
     public void create(Game game) {
-        gameRepository.save(game);
+        Game newGame = new Game();
+        newGame.setDate(game.getDate());
+        newGame.setDescription(game.getDescription());
+        newGame.setName(game.getDescription());
+        newGame.setPrice(game.getPrice());
+        gameRepository.save(newGame);
     }
 
     public List<Game> findAll() {

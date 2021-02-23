@@ -64,13 +64,13 @@ public class ReviewController {
         return "createReview";
     }
 
-    @PostMapping("/keys/create")
+    @PostMapping("/reviews/create")
     public String createNewReview(@ModelAttribute("review") @Valid Review review,
                                   BindingResult result) {
         if (result.hasErrors()) {
             return "createReview";
         }
-        reviewService.update(review);
+        reviewService.create(review);
         return "redirect:/reviews";
     }
 }
