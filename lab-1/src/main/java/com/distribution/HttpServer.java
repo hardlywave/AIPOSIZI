@@ -1,5 +1,7 @@
 package com.distribution;
 
+import com.distribution.enums.ContentType;
+import com.distribution.enums.HttpCode;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -9,14 +11,14 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
-import static com.distribution.HttpCode.*;
+import static com.distribution.Main.DIRECTORY_PATH;
+import static com.distribution.enums.ContentType.findByFileName;
+import static com.distribution.enums.HttpCode.*;
 import static java.lang.String.format;
 
 public class HttpServer implements Runnable {
-
     private final Socket socket;
     private static final Logger log = LogManager.getLogger(HttpServer.class);
-    private final String DIRECTORY_PATH = System.getProperty("user.dir") + "/directory";
 
     private BufferedReader in;
     private PrintWriter out;
@@ -85,12 +87,37 @@ public class HttpServer implements Runnable {
 
     private void processGet(String fileRequested) throws IOException {
         log.info("GET request was accepted");
-        createResponse(HttpCode.OK, new CreatorHTML(fileRequested));
+        CreatorHTML html = new CreatorHTML(fileRequested);
+        if ((DIRECTORY_PATH + fileRequested).contains(Main.FORBIDDEN)) {
+            createResponse(FORBIDDEN, new CreatorHTML(FORBIDDEN));
+            return;
+        }
+        if ("".equals(html.getFileHTML())) {
+            InputStream inputStream = findFile(fileRequested);
+            ContentType content = findByFileName(fileRequested);
+            byte[] data = content.getReader().read(inputStream);
+            createResponse(OK, content, data.length, data);
+            log.info(format("File %s of type %s returned", fileRequested, content.getText()));
+        } else {
+            createResponse(OK, html);
+        }
+    }
+
+    private InputStream findFile(String fileName) throws FileNotFoundException {
+        File file = new File(DIRECTORY_PATH + fileName);
+        if (!file.exists()) {
+            throw new FileNotFoundException();
+        }
+        return new FileInputStream(file.getPath());
     }
 
     private void processPost(String path) throws IOException {
         log.info("POST request was accepted");
         File file = new File(DIRECTORY_PATH + path);
+        if (file.getPath().contains(Main.FORBIDDEN)) {
+            createResponse(FORBIDDEN, new CreatorHTML(FORBIDDEN));
+            return;
+        }
         if (!file.exists()) {
             throw new FileNotFoundException();
         }
@@ -132,6 +159,22 @@ public class HttpServer implements Runnable {
         log.warn("Unknown method: " + method);
     }
 
+    private void createResponse(HttpCode code, ContentType content, int fileLength, byte[] fileData)
+            throws IOException {
+        out.println(format("HTTP/1.1 %s %s", code.getCode(), code.getDescription()));
+        out.println("Server: HTTP Server");
+        out.println(format("Date: %s", Instant.now()));
+        out.println(format("Content-type: %s", content.getText()));
+        out.println(format("Content-length: %s", fileLength));
+        out.println("Access-Control-Allow-Origin: localhost");
+        out.println("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        out.println();
+        out.flush();
+
+        dataOut.write(fileData, 0, fileLength);
+        dataOut.flush();
+    }
+
     private void createResponse(HttpCode code, CreatorHTML html) {
         out.println(format("HTTP/1.1 %s %s", code.getCode(), code.getDescription()));
         out.println("Server: HTTP Server");
@@ -142,18 +185,12 @@ public class HttpServer implements Runnable {
         out.println();
         if (!Objects.isNull(html)) {
             if ("".equals(html.getFileHTML())) {
-                Download.download(html.getFolder(), dataOut);
+//                Download.download(html.getFolder(), dataOut);
             } else {
                 out.println(html.getFileHTML());
             }
         }
         out.flush();
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ignored) {
-            log.info("Thread error.");
-        }
         log.info("Creating header of response with code " + code.getCode());
     }
 }
