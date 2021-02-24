@@ -10,8 +10,9 @@ public class Key {
     private Long id;
     @Column(unique = true, nullable = false)
     private String key;
-    @Column(nullable = false)
-    private String game;
+    @ManyToOne
+    @JoinColumn(nullable=false)
+    private Game game;
     public Key() {
     }
 
@@ -31,11 +32,11 @@ public class Key {
         this.key = key;
     }
 
-    public String getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(String game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 }

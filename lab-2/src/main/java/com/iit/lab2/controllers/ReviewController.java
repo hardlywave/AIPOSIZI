@@ -1,5 +1,6 @@
 package com.iit.lab2.controllers;
 
+import com.iit.lab2.EntityNotFoundException;
 import com.iit.lab2.persist.entity.Review;
 import com.iit.lab2.repr.ReviewRepr;
 import com.iit.lab2.service.GameService;
@@ -15,26 +16,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class ReviewController {
     private final ReviewService reviewService;
-    private final UserService userService;
-    private final GameService gameService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService, UserService userService, GameService gameService) {
+    public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
-        this.userService = userService;
-        this.gameService = gameService;
     }
 
     @GetMapping("/reviews")
     public String getReviews(Model model) {
         List<Review> reviews = reviewService.findAll();
-        model.addAttribute("reviews", reviews);
+        List<ReviewRepr> reviewReprs = new ArrayList<>();
+        for (Review review : reviews) {
+            reviewReprs.add(new ReviewRepr(review));
+        }
+        model.addAttribute("reviews", reviewReprs);
         return "reviews";
     }
 
@@ -61,16 +63,13 @@ public class ReviewController {
         if (result.hasErrors()) {
             return "updateReview";
         }
-        if(!gameService.findByName(review.getGame()).isPresent()){
-            result.rejectValue("game", "", "Game is not exist");
-            return "createReview";
+        try {
+            reviewService.update(review);
+            return "redirect:/reviews";
+        }catch (EntityNotFoundException e){
+            result.rejectValue(e.getType(), "", e.getMessage());
+            return "updateReview";
         }
-        if(!userService.findByUsername(review.getAuthor()).isPresent()){
-            result.rejectValue("author", "", "Username is not exist");
-            return "createReview";
-        }
-        reviewService.update(review);
-        return "redirect:/reviews";
     }
 
     @GetMapping("/reviews/create")
@@ -85,15 +84,12 @@ public class ReviewController {
         if (result.hasErrors()) {
             return "createReview";
         }
-        if(!gameService.findByName(review.getGame()).isPresent()){
-            result.rejectValue("game", "", "Game is not exist");
+        try {
+            reviewService.create(review);
+            return "redirect:/reviews";
+        }catch (EntityNotFoundException e){
+            result.rejectValue(e.getType(), "", e.getMessage());
             return "createReview";
         }
-        if(!userService.findByUsername(review.getAuthor()).isPresent()){
-            result.rejectValue("author", "", "Username is not exist");
-            return "createReview";
-        }
-        reviewService.create(review);
-        return "redirect:/reviews";
     }
 }

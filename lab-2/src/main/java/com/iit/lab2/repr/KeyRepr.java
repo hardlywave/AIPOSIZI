@@ -21,7 +21,7 @@ public class KeyRepr {
     public KeyRepr(Key key){
         id = key.getId();
         this.key = key.getKey();
-        game = key.getGame();
+        game = key.getGame().getName();
     }
 
     public Long getId() {

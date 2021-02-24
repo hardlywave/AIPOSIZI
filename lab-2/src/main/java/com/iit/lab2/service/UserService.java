@@ -1,7 +1,5 @@
 package com.iit.lab2.service;
 
-import com.iit.lab2.persist.entity.Game;
-import com.iit.lab2.persist.entity.Review;
 import com.iit.lab2.persist.entity.User;
 import com.iit.lab2.persist.repo.UserRepository;
 import com.iit.lab2.repr.UserRepr;
@@ -47,9 +45,9 @@ public class UserService {
 
     public Optional<User> findByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             log.info("Game with email {} was found", email);
-        }else {
+        } else {
             log.info("Game with email {} wasn't found", email);
         }
         return user;
@@ -57,32 +55,32 @@ public class UserService {
 
     public Optional<User> findByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             log.info("Game with username {} was found", username);
-        }else {
+        } else {
             log.info("Game with username {} wasn't found", username);
         }
         return user;
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         userRepository.deleteById(id);
         log.info("The user has been removed");
     }
 
-    public Optional<User> findById(Long id){
+    public Optional<User> findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             log.info("User with id {} was found", id);
-        }else {
+        } else {
             log.info("User with id {} wasn't found", id);
         }
         return user;
     }
 
-    public void update(User user){
+    public void update(User user) {
         User oldUser = userRepository.findById(user.getId()).get();
-        if("".equals(user.getPassword())){
+        if ("".equals(user.getPassword())) {
             user.setPassword(oldUser.getPassword());
         }
         user.setDate(oldUser.getDate());

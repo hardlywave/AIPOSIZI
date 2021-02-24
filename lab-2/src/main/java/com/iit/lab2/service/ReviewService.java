@@ -1,12 +1,17 @@
 package com.iit.lab2.service;
 
+import com.iit.lab2.EntityNotFoundException;
 import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.persist.entity.Review;
+import com.iit.lab2.persist.entity.User;
+import com.iit.lab2.persist.repo.GameRepository;
 import com.iit.lab2.persist.repo.ReviewRepository;
+import com.iit.lab2.persist.repo.UserRepository;
 import com.iit.lab2.repr.ReviewRepr;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -18,18 +23,30 @@ import java.util.Optional;
 @Transactional
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final GameRepository gameRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository) {
+    public ReviewService(ReviewRepository reviewRepository, GameRepository gameRepository, UserRepository userRepository) {
         this.reviewRepository = reviewRepository;
+        this.gameRepository = gameRepository;
+        this.userRepository = userRepository;
     }
 
-    public void create(ReviewRepr review) {
+    public void create(ReviewRepr review) throws EntityNotFoundException {
         Review newReview = new Review();
-        newReview.setAuthor(review.getAuthor());
         newReview.setReview(review.getReview());
-        newReview.setGame(review.getGame());
         newReview.setDate(review.getDate());
+        Optional<User> user = userRepository.findByUsername(review.getAuthor());
+        if (!user.isPresent()){
+            throw new EntityNotFoundException("author", "Username is not exist");
+        }
+        Optional<Game> game = gameRepository.findByName(review.getGame());
+        if (!game.isPresent()){
+            throw new EntityNotFoundException("game", "Game is not exist");
+        }
+        newReview.setGame(game.get());
+        newReview.setAuthor(user.get());
         reviewRepository.save(newReview);
         log.info("Review was created");
     }
@@ -57,13 +74,21 @@ public class ReviewService {
         return review;
     }
 
-    public void update(ReviewRepr review) {
+    public void update(ReviewRepr review) throws EntityNotFoundException {
         Review newReview = new Review();
         newReview.setId(review.getId());
         newReview.setReview(review.getReview());
         newReview.setDate(review.getDate());
-        newReview.setGame(review.getGame());
-        newReview.setAuthor(review.getAuthor());
+        Optional<User> user = userRepository.findByUsername(review.getAuthor());
+        if (!user.isPresent()){
+            throw new EntityNotFoundException("author", "Username is not exist");
+        }
+        Optional<Game> game = gameRepository.findByName(review.getGame());
+        if (!game.isPresent()){
+            throw new EntityNotFoundException("game", "Game is not exist");
+        }
+        newReview.setGame(game.get());
+        newReview.setAuthor(user.get());
         reviewRepository.save(newReview);
         log.info("The review has been updated");
     }

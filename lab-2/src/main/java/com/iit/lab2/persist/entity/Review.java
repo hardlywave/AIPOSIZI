@@ -9,10 +9,12 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (nullable = false)
-    private String author;
-    @Column (nullable = false)
-    private String game;
+    @ManyToOne
+    @JoinColumn(name = "username", nullable=false)
+    private User author;
+    @ManyToOne
+    @JoinColumn(name = "name", nullable=false)
+    private Game game;
     @Column (nullable = false)
     private String review;
     @Column (nullable = false)
@@ -29,19 +31,19 @@ public class Review {
         this.id = id;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
-    public String getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(String game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 

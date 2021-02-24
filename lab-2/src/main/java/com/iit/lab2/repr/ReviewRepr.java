@@ -24,8 +24,8 @@ public class ReviewRepr {
 
     public ReviewRepr(Review review){
         id = review.getId();
-        author = review.getAuthor();
-        game = review.getGame();
+        author = review.getAuthor().getUsername();
+        game = review.getGame().getName();
         this.review = review.getReview();
         date = review.getDate();
     }
