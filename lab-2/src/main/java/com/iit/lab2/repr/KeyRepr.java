@@ -2,10 +2,6 @@ package com.iit.lab2.repr;
 
 import com.iit.lab2.persist.entity.Key;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
 public class KeyRepr {

@@ -20,7 +20,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private LocalDate date;
 
     public User() {
@@ -64,5 +64,12 @@ public class User {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void copyAttribute(User user) {
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.date = user.getDate();
     }
 }

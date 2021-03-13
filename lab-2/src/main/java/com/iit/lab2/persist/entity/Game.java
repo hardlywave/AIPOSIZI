@@ -2,6 +2,7 @@ package com.iit.lab2.persist.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "games")
@@ -12,13 +13,20 @@ public class Game {
     @Column(unique = true, nullable = false)
     private String name;
     @Column (nullable = false)
-    private double price;
+    private Double price;
     @Column (nullable = false)
     private String description;
     @Column (nullable = false)
     private LocalDate date;
 
     public Game() {
+    }
+
+    public void copyAttribute(Game game){
+        this.name = game.getName();
+        this.price = game.getPrice();
+        this.description = game.getDescription();
+        this.date = game.getDate();
     }
 
     public Long getId() {
@@ -37,11 +45,11 @@ public class Game {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -59,5 +67,18 @@ public class Game {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return Objects.equals(id, game.id) && Objects.equals(name, game.name) && Objects.equals(price, game.price) && Objects.equals(description, game.description) && Objects.equals(date, game.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, description, date);
     }
 }

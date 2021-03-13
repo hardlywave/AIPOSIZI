@@ -1,23 +1,14 @@
 package com.iit.lab2.controllers;
 
 import com.iit.lab2.persist.entity.Game;
-import com.iit.lab2.repr.GameRepr;
+import com.iit.lab2.response.RestException;
 import com.iit.lab2.service.GameService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
-@Controller
+@RestController
 public class GameController {
     private final GameService gameService;
 
@@ -27,67 +18,27 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public String getGames(Model model) {
-        List<Game> gameList = gameService.findAll();
-        model.addAttribute("games", gameList);
-        return "games";
+    public List<Game> getGames() {
+        return gameService.findAll();
     }
 
-    @GetMapping("/games/delete/{id}")
-    public String deleteGame(@PathVariable Long id) {
+    @GetMapping("/games/{id}")
+    public Game getGame(@PathVariable Long id) throws RestException {
+        return gameService.findById(id).get();
+    }
+
+    @DeleteMapping("/games/delete/{id}")
+    public void deleteGame(@PathVariable Long id) throws RestException {
         gameService.delete(id);
-        return "redirect:/games";
     }
 
-    @GetMapping("/games/update/{id}")
-    public String updateGame(@PathVariable Long id, Model model) {
-        Optional<Game> game = gameService.findById(id);
-        if (game.isPresent()) {
-            model.addAttribute("game", new GameRepr(game.get()));
-            return "updateGame";
-        } else {
-            return "games";
-        }
-    }
-
-    @PostMapping("/games/update/{id}")
-    public String updateGame(@PathVariable Long id, @ModelAttribute("game") @Valid GameRepr game,
-                             BindingResult result) {
-        if (result.hasErrors()) {
-            return "updateGame";
-        }
-        Game oldGame = gameService.findById(id).get();
-        if (!oldGame.getName().equals(game.getName())) {
-            if (gameService.findByName(game.getName()).isPresent()) {
-                result.rejectValue("name", "", "Name is exist");
-                return "updateGame";
-            }
-        }
-        oldGame.setDate(game.getTargetDate());
-        oldGame.setDescription(game.getDescription());
-        oldGame.setPrice(game.getPrice());
-        oldGame.setName(game.getName());
-        gameService.update(oldGame);
-        return "redirect:/games";
-    }
-
-    @GetMapping("/games/create")
-    public String registerPage(Model model) {
-        model.addAttribute("game", new GameRepr());
-        return "createGame";
+    @PutMapping("/games/update/{id}")
+    public void updateGame(@PathVariable Long id, @RequestBody Game game) throws RestException {
+        gameService.update(game);
     }
 
     @PostMapping("/games/create")
-    public String registerNewGame(@ModelAttribute("game") @Valid GameRepr game,
-                                  BindingResult result) {
-        if (result.hasErrors()) {
-            return "createGame";
-        }
-        if (gameService.findByName(game.getName()).isPresent()) {
-            result.rejectValue("name", "", "Name is exist");
-            return "createGame";
-        }
+    public void registerNewGame(@RequestBody Game game) throws RestException {
         gameService.create(game);
-        return "redirect:/games";
     }
 }
