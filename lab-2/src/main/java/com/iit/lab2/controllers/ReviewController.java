@@ -1,14 +1,11 @@
 package com.iit.lab2.controllers;
 
 import com.iit.lab2.persist.entity.Review;
-import com.iit.lab2.repr.ReviewRepr;
 import com.iit.lab2.response.RestException;
 import com.iit.lab2.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

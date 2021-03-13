@@ -1,6 +1,5 @@
 package com.iit.lab2.service;
 
-import com.iit.lab2.persist.entity.Review;
 import com.iit.lab2.persist.entity.User;
 import com.iit.lab2.persist.repo.ReviewRepository;
 import com.iit.lab2.persist.repo.UserRepository;

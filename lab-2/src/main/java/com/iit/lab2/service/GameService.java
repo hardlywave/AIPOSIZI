@@ -51,16 +51,6 @@ public class GameService {
         return target;
     }
 
-    public Optional<Game> findByName(String name) {
-        Optional<Game> game = gameRepository.findByName(name);
-        if (game.isPresent()) {
-            log.info("A game named {} was found", name);
-        } else {
-            log.info("A game named {} wasn't found", name);
-        }
-        return game;
-    }
-
     public void delete(Long id) throws RestException {
         Game game = findById(id).get();
         keyRepository.deleteByGame(game);
@@ -82,7 +72,7 @@ public class GameService {
 
     public void update(Game game) throws RestException {
         Optional<Game> row = findById(game.getId());
-        Game item = null;
+        Game item;
         if (row.isPresent()) {
             item = row.get();
             if (!item.getName().equals(game.getName())) {
