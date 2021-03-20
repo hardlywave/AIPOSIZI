@@ -23,6 +23,8 @@ public class User {
     @Column(nullable = false)
     private LocalDate date;
 
+    private String linkImage;
+
     public User() {
     }
 
@@ -66,10 +68,19 @@ public class User {
         this.date = date;
     }
 
+    public String getLinkImage() {
+        return linkImage;
+    }
+
+    public void setLinkImage(String linkImage) {
+        this.linkImage = linkImage;
+    }
+
     public void copyAttribute(User user) {
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.date = user.getDate();
+        this.linkImage = user.getLinkImage();
     }
 }

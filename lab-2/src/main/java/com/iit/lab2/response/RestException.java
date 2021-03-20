@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Slf4j
 public class RestException extends Exception{
-    private HttpStatus status;
+    private final HttpStatus status;
 
     public RestException(HttpStatus status, String message){
         super(message);

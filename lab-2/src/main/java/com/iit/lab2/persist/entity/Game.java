@@ -2,6 +2,7 @@ package com.iit.lab2.persist.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,17 +13,20 @@ public class Game {
     private Long id;
     @Column(unique = true, nullable = false)
     private String name;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private Double price;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String description;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private LocalDate date;
+    @ElementCollection
+    private List<String> linksImages;
 
     public Game() {
+
     }
 
-    public void copyAttribute(Game game){
+    public void copyAttribute(Game game) {
         this.name = game.getName();
         this.price = game.getPrice();
         this.description = game.getDescription();
@@ -67,6 +71,18 @@ public class Game {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public List<String> getLinksImages() {
+        return linksImages;
+    }
+
+    public void setLinksImages(List<String> linksImages) {
+        this.linksImages = linksImages;
+    }
+
+    public void addLinkImage(String link) {
+        linksImages.add(link);
     }
 
     @Override
