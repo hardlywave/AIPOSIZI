@@ -31,13 +31,9 @@ public class KeyService {
     public void create(Key key) throws RestException {
         Key newKey = new Key();
         newKey.setKey(key.getKey());
-        Optional<Game> game = gameRepository.findById(key.getGame().getId());
-        if (game.isPresent()) {
-            if (!game.get().equals(key.getGame())) {
-                throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist");
-            }
-        } else {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist");
+        Optional<Game> game = gameRepository.findByName(key.getGame().getName());
+        if (!game.isPresent()) {
+            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         }
         newKey.setGame(game.get());
         keyRepository.save(newKey);
@@ -64,7 +60,7 @@ public class KeyService {
             log.info("Key with id {} was found", id);
         } else {
             log.info("Key with id {} wasn't found", id);
-            throw new RestException(HttpStatus.NOT_FOUND, "Key not found");
+            throw new RestException(HttpStatus.NOT_FOUND, "Key not found", "key");
         }
         return key;
     }
@@ -76,23 +72,20 @@ public class KeyService {
             item = row.get();
             if (!item.getKey().equals(key.getKey())) {
                 if (keyRepository.findByKey(key.getKey()).isPresent()) {
-                    throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Key is busy");
+                    throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Key is busy", "key");
                 }
             }
         } else {
-            throw new RestException(HttpStatus.NOT_FOUND, "Not found!");
+            throw new RestException(HttpStatus.NOT_FOUND, "Not found!", "key");
         }
         if ("".equals(key.getKey())) {
             key.setKey(item.getKey());
         }
-        Optional<Game> game = gameRepository.findById(key.getId());
-        if (game.isPresent()) {
-            if (!game.get().equals(key.getGame())) {
-                throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist");
-            }
-        } else {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist");
+        Optional<Game> game = gameRepository.findByName(key.getGame().getName());
+        if (!game.isPresent()) {
+            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         }
+        key.setGame(game.get());
         keyRepository.save(key);
         log.info("The key has been updated");
     }

@@ -10,14 +10,14 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "username", nullable=false)
+    @JoinColumn(name = "username", nullable = false)
     private User author;
     @ManyToOne
-    @JoinColumn(name = "name", nullable=false)
+    @JoinColumn(name = "name", nullable = false)
     private Game game;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String review;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private LocalDate date;
 
     public Review() {

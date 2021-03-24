@@ -1,5 +1,6 @@
 package com.iit.lab2.controllers;
 
+import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.persist.entity.Key;
 import com.iit.lab2.response.RestException;
 import com.iit.lab2.service.KeyService;
@@ -34,7 +35,12 @@ public class KeyController {
         keyService.delete(id);
     }
 
-    @PutMapping("/keys/update/{id}")
+    @GetMapping("/keys/update/{id}")
+    public Key updateGame(@PathVariable Long id) throws RestException {
+        return keyService.findById(id).get();
+    }
+
+    @PostMapping("/keys/update/{id}")
     public void update(@PathVariable Long id, @RequestBody Key key) throws RestException {
         key.setId(id);
         keyService.update(key);

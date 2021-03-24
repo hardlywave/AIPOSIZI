@@ -41,7 +41,7 @@ public class GameService {
         Game game1 = new Game();
         game1.copyAttribute(game);
         if (gameRepository.findByName(game1.getName()).isPresent()) {
-            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Name is busy");
+            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Name is busy", "name");
         }
         gameRepository.save(game1);
         log.info("{} was created", game.getName());
@@ -69,7 +69,18 @@ public class GameService {
             log.info("Game with id {} was found", id);
         } else {
             log.info("Game with id {} wasn't found", id);
-            throw new RestException(HttpStatus.NOT_FOUND, "Game not found");
+            throw new RestException(HttpStatus.NOT_FOUND, "Game not found", "game");
+        }
+        return game;
+    }
+
+    public Optional<Game> findByName(String name) throws RestException {
+        Optional<Game> game = gameRepository.findByName(name);
+        if (game.isPresent()) {
+            log.info("Game with name {} was found", name);
+        } else {
+            log.info("Game with name {} wasn't found", name);
+            throw new RestException(HttpStatus.NOT_FOUND, "Game not found", "game");
         }
         return game;
     }
@@ -81,11 +92,11 @@ public class GameService {
             item = row.get();
             if (!item.getName().equals(game.getName())) {
                 if (gameRepository.findByName(game.getName()).isPresent()) {
-                    throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Name is busy");
+                    throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Name is busy", "name");
                 }
             }
         } else {
-            throw new RestException(HttpStatus.NOT_FOUND, "Not found!");
+            throw new RestException(HttpStatus.NOT_FOUND, "Not found!", "game");
         }
         if (Objects.isNull(game.getDate())) {
             game.setDate(item.getDate());
@@ -119,6 +130,15 @@ public class GameService {
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    byte[] downloadGameScreenshot(Game game, int numberScreenshot) {
+        String path = String.format("%s/%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), "games", game.getId());
+
+        return Optional.of(game.getLinksImages().get(numberScreenshot))
+                .map(key -> fileStore.download(path, key))
+                .orElse(new byte[0]);
+
     }
 
     private Map<String, String> extractMetadata(MultipartFile file) {

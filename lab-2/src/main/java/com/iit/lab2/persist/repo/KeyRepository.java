@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface KeyRepository extends CrudRepository<Key, Long> {
     Optional<Key> findByKey(String key);
+
     void deleteByGame(Game game);
 
     Optional<Game> findByGame(Game game);

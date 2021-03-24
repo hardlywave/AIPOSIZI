@@ -40,7 +40,12 @@ public class UserController {
         userService.delete(id);
     }
 
-    @PutMapping("/users/update/{id}")
+    @GetMapping("/users/update/{id}")
+    public User update(@PathVariable Long id) throws RestException {
+        return userService.findById(id).get();
+    }
+
+    @PostMapping("/users/update/{id}")
     public void updateUser(@PathVariable Long id, @RequestBody User user) throws RestException {
         user.setId(id);
         userService.update(user);

@@ -32,7 +32,12 @@ public class ReviewController {
         reviewService.delete(id);
     }
 
-    @PutMapping("/reviews/update/{id}")
+    @GetMapping("/reviews/update/{id}")
+    public Review update(@PathVariable Long id) throws RestException {
+        return reviewService.findById(id).get();
+    }
+
+    @PostMapping("/reviews/update/{id}")
     public void update(@PathVariable Long id, @RequestBody Review review) throws RestException {
         review.setId(id);
         reviewService.update(review);

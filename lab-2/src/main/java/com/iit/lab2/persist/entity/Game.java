@@ -19,6 +19,7 @@ public class Game {
     private String description;
     @Column(nullable = false)
     private LocalDate date;
+    private String linkMainImage;
     @ElementCollection
     private List<String> linksImages;
 
@@ -79,6 +80,14 @@ public class Game {
 
     public void setLinksImages(List<String> linksImages) {
         this.linksImages = linksImages;
+    }
+
+    public String getLinkMainImage() {
+        return linkMainImage;
+    }
+
+    public void setLinkMainImage(String linkMainImage) {
+        this.linkMainImage = linkMainImage;
     }
 
     public void addLinkImage(String link) {

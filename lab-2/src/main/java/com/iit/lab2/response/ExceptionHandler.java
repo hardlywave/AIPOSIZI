@@ -27,7 +27,7 @@ public class ExceptionHandler implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         if (body instanceof Throwable) {
-            return new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), ((Throwable) body).getMessage());
+            return new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), ((Throwable) body).getMessage(), ((RestException) body).getType());
         }
         return new Response(HttpStatus.OK.value(), "OK", body);
     }

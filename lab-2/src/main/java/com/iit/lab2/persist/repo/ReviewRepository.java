@@ -11,7 +11,10 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends CrudRepository<Review, Long> {
     void deleteByGame(Game game);
+
     void deleteByAuthor(User author);
+
     Optional<Review> findByAuthor(User author);
+
     Optional<Review> findByGame(Game game);
 }

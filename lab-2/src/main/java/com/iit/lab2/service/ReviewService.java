@@ -1,7 +1,11 @@
 package com.iit.lab2.service;
 
+import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.persist.entity.Review;
+import com.iit.lab2.persist.entity.User;
+import com.iit.lab2.persist.repo.GameRepository;
 import com.iit.lab2.persist.repo.ReviewRepository;
+import com.iit.lab2.persist.repo.UserRepository;
 import com.iit.lab2.response.RestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,24 +24,30 @@ import java.util.Optional;
 @Transactional
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
+    private final GameRepository gameRepository;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository) {
+    public ReviewService(ReviewRepository reviewRepository, UserRepository userRepository, GameRepository gameRepository) {
         this.reviewRepository = reviewRepository;
+        this.userRepository = userRepository;
+        this.gameRepository = gameRepository;
     }
 
     public void create(Review review) throws RestException {
         Review newReview = new Review();
-        if (reviewRepository.findByAuthor(review.getAuthor()).isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Author is not exist");
+        Optional<User> user = userRepository.findByUsername(review.getAuthor().getUsername());
+        if (!user.isPresent()) {
+            throw new RestException(HttpStatus.NOT_FOUND, "Author is not exist", "author");
         }
-        if (reviewRepository.findByGame(review.getGame()).isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist");
+        Optional<Game> game = gameRepository.findByName(review.getGame().getName());
+        if (!game.isPresent()) {
+            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         }
-        newReview.setGame(review.getGame());
-        newReview.setAuthor(review.getAuthor());
-        newReview.setDate(review.getDate());
+        newReview.setGame(game.get());
+        newReview.setAuthor(user.get());
         newReview.setReview(review.getReview());
+        newReview.setDate(LocalDate.now());
         reviewRepository.save(newReview);
         log.info("Review was created");
     }
@@ -61,7 +72,7 @@ public class ReviewService {
             log.info("Review with id {} was found", id);
         } else {
             log.info("Review with id {} wasn't found", id);
-            throw new RestException(HttpStatus.NOT_FOUND, "Review is not exist");
+            throw new RestException(HttpStatus.NOT_FOUND, "Review is not exist", "review");
         }
         return review;
     }
@@ -72,13 +83,19 @@ public class ReviewService {
         if (row.isPresent()) {
             item = row.get();
         } else {
-            throw new RestException(HttpStatus.NOT_FOUND, "Review not fount");
+            throw new RestException(HttpStatus.NOT_FOUND, "Review not fount", "review");
         }
-        if (!reviewRepository.findByAuthor(review.getAuthor()).isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Author is not exist");
+        Optional<User> user = userRepository.findByUsername(review.getAuthor().getUsername());
+        if (!user.isPresent()) {
+            throw new RestException(HttpStatus.NOT_FOUND, "Author is not exist", "author");
+        }else {
+            review.setAuthor(user.get());
         }
-        if (!reviewRepository.findByGame(review.getGame()).isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist");
+        Optional<Game> game = gameRepository.findByName(review.getGame().getName());
+        if (!game.isPresent()) {
+            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
+        } else {
+            review.setGame(game.get());
         }
         if ("".equals(review.getReview())) {
             review.setReview(item.getReview());

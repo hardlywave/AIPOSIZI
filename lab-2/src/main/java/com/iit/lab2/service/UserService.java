@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,11 +33,12 @@ public class UserService {
     public void create(User userRequest) throws RestException {
         User user = new User();
         user.copyAttribute(userRequest);
+        user.setDate(LocalDate.now());
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Username is busy");
+            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Username is busy", "username");
         }
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Email is busy");
+            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Email is busy", "email");
         }
         userRepository.save(user);
         log.info("{} was created", user.getUsername());
@@ -63,7 +65,7 @@ public class UserService {
             log.info("User with id {} was found", id);
         } else {
             log.info("User with id {} wasn't found", id);
-            throw new RestException(HttpStatus.NOT_FOUND, "User not found");
+            throw new RestException(HttpStatus.NOT_FOUND, "User not found", "user");
         }
         return user;
     }
@@ -72,12 +74,12 @@ public class UserService {
         User oldUser = userRepository.findById(user.getId()).get();
         if (!user.getUsername().equals(oldUser.getUsername())) {
             if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-                throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Username is busy");
+                throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Username is busy", "username");
             }
         }
         if (!user.getEmail().equals(oldUser.getEmail())) {
             if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-                throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Email is busy");
+                throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Email is busy", "email");
             }
         }
         setNotNull(user, oldUser);
