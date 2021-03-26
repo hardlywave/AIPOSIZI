@@ -4,7 +4,9 @@ import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.response.RestException;
 import com.iit.lab2.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -51,5 +53,20 @@ public class GameController {
     @PostMapping("/games/create")
     public void registerNewGame(@RequestBody Game game) throws RestException {
         gameService.create(game);
+    }
+
+    @GetMapping("/games/{id}/mainImage")
+    public byte[] getMainImage(@PathVariable Long id) throws RestException {
+        return gameService.downloadMainImage(id);
+    }
+
+    @PostMapping(
+            path = "/games/{id}/mainImage/upload",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void uploadMainImage(@PathVariable Long id,
+                                @RequestParam("file")MultipartFile file){
+        gameService.uploadMainImage(id, file);
     }
 }

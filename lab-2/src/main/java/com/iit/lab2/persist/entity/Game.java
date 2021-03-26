@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "games")
@@ -82,8 +83,8 @@ public class Game {
         this.linksImages = linksImages;
     }
 
-    public String getLinkMainImage() {
-        return linkMainImage;
+    public Optional<String> getLinkMainImage() {
+        return Optional.ofNullable(linkMainImage);
     }
 
     public void setLinkMainImage(String linkMainImage) {

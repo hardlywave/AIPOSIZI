@@ -111,6 +111,27 @@ public class GameService {
         log.info("The game has been updated");
     }
 
+    public void uploadMainImage(Long id, MultipartFile file) {
+//        Check if image is not empty
+        isFileEmpty(file);
+//        If file is an image
+        isImage(file);
+//        The game exist in our db
+        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Game not found"));
+//        Gram some metadata from file if any
+        Map<String, String> metadata = extractMetadata(file);
+//        Store the image in s3 and update db(link) with s3 image lik
+        String path = String.format("%s/%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), "games", game.getId());
+        String fileName = String.format("%s-%s", file.getName(), UUID.randomUUID());
+        try {
+            fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
+            game.setLinkMainImage(fileName);
+            gameRepository.save(game);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     public void uploadScreenshot(Long id, MultipartFile file) {
 //        Check if image is not empty
         isFileEmpty(file);
@@ -149,7 +170,7 @@ public class GameService {
     }
 
     private void isImage(MultipartFile file) {
-        if (Arrays.asList(ContentType.IMAGE_JPEG.getMimeType(), ContentType.IMAGE_PNG.getMimeType()).contains(file.getContentType())) {
+        if (!Arrays.asList(ContentType.IMAGE_JPEG.getMimeType(), ContentType.IMAGE_PNG.getMimeType()).contains(file.getContentType())) {
             throw new IllegalStateException("File must be an image");
         }
     }
@@ -158,5 +179,16 @@ public class GameService {
         if (file.isEmpty()) {
             throw new IllegalStateException("Cannot upload empty file[" + file.getSize() + "]");
         }
+    }
+
+    public byte[] downloadMainImage(Long id) throws RestException {
+        Game game = findById(id).get();
+        System.out.println(id);
+        String path = String.format("%s/%s/%s",
+                BucketName.PROFILE_IMAGE.getBucketName(),
+                "games",
+                game.getId());
+        return game.getLinkMainImage().map(key -> fileStore.download(path, key))
+                .orElse(new byte[0]);
     }
 }
