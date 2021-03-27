@@ -22,22 +22,35 @@ const Game = () => {
             return (
                 <div key={index}>
                     {game.id ? (
-                        <img src={'http://localhost:8082/games/${id}/mainImage'}/>) : null}
+                        <img src={`http://localhost:8082/games/${game.id}/mainImage`}/>) : null}
                     <h1>{game.name}</h1>
                     <p>{game.price}</p>
-                    <MyDropzone/>
+                    <MyDropzone id={game.id}/>
                 </div>
             );
         }
     );
 };
 
-function MyDropzone() {
+function MyDropzone({id}) {
     const onDrop = useCallback(acceptedFiles => {
         const file = acceptedFiles[0];
         console.log(file);
         const formData = new FormData();
         formData.append("file", file);
+        axios.post(`http://localhost:8082/games/${id}/mainImage/upload`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+            ).then(() => {
+                console.log("file uploaded successfully")
+        }).catch(err => {
+            console.log(err);
+        });
+
         // axios.post()
         // Do somethin  g with the files
     }, [])
