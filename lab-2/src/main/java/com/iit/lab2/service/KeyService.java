@@ -4,6 +4,7 @@ import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.persist.entity.Key;
 import com.iit.lab2.persist.repo.GameRepository;
 import com.iit.lab2.persist.repo.KeyRepository;
+import com.iit.lab2.persist.request.KeyRequest;
 import com.iit.lab2.response.RestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,10 @@ public class KeyService {
         this.gameRepository = gameRepository;
     }
 
-    public void create(Key key) throws RestException {
+    public void create(KeyRequest key) throws RestException {
         Key newKey = new Key();
         newKey.setKey(key.getKey());
-        Optional<Game> game = gameRepository.findByName(key.getGame().getName());
+        Optional<Game> game = gameRepository.findByName(key.getGame());
         if (!game.isPresent()) {
             throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         }
@@ -65,7 +66,7 @@ public class KeyService {
         return key;
     }
 
-    public void update(Key key) throws RestException {
+    public void update(KeyRequest key) throws RestException {
         Optional<Key> row = findById(key.getId());
         Key item = null;
         if (row.isPresent()) {
@@ -78,15 +79,15 @@ public class KeyService {
         } else {
             throw new RestException(HttpStatus.NOT_FOUND, "Not found!", "key");
         }
-        if ("".equals(key.getKey())) {
-            key.setKey(item.getKey());
+        if (!"".equals(key.getKey())) {
+            item.setKey(key.getKey());
         }
-        Optional<Game> game = gameRepository.findByName(key.getGame().getName());
+        Optional<Game> game = gameRepository.findByName(key.getGame());
         if (!game.isPresent()) {
             throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         }
-        key.setGame(game.get());
-        keyRepository.save(key);
+        item.setGame(game.get());
+        keyRepository.save(item);
         log.info("The key has been updated");
     }
 }

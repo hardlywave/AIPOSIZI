@@ -1,6 +1,7 @@
 package com.iit.lab2.controllers;
 
 import com.iit.lab2.persist.entity.Review;
+import com.iit.lab2.persist.request.ReviewRequest;
 import com.iit.lab2.response.RestException;
 import com.iit.lab2.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +40,13 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews/update/{id}")
-    public void update(@PathVariable Long id, @RequestBody Review review) throws RestException {
+    public void update(@PathVariable Long id, @RequestBody ReviewRequest review) throws RestException {
         review.setId(id);
         reviewService.update(review);
     }
 
     @PostMapping("/reviews/create")
-    public void createNewReview(@RequestBody Review review) throws RestException {
+    public void createNewReview(@RequestBody ReviewRequest review) throws RestException {
         reviewService.create(review);
     }
 }

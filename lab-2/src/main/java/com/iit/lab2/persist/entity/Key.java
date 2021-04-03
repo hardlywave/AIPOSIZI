@@ -1,5 +1,6 @@
 package com.iit.lab2.persist.entity;
 
+
 import javax.persistence.*;
 
 @Entity

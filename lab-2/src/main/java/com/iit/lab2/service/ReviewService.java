@@ -6,6 +6,7 @@ import com.iit.lab2.persist.entity.User;
 import com.iit.lab2.persist.repo.GameRepository;
 import com.iit.lab2.persist.repo.ReviewRepository;
 import com.iit.lab2.persist.repo.UserRepository;
+import com.iit.lab2.persist.request.ReviewRequest;
 import com.iit.lab2.response.RestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,13 @@ public class ReviewService {
         this.gameRepository = gameRepository;
     }
 
-    public void create(Review review) throws RestException {
+    public void create(ReviewRequest review) throws RestException {
         Review newReview = new Review();
-        Optional<User> user = userRepository.findByUsername(review.getAuthor().getUsername());
+        Optional<User> user = userRepository.findByUsername(review.getAuthor());
         if (!user.isPresent()) {
             throw new RestException(HttpStatus.NOT_FOUND, "Author is not exist", "author");
         }
-        Optional<Game> game = gameRepository.findByName(review.getGame().getName());
+        Optional<Game> game = gameRepository.findByName(review.getGame());
         if (!game.isPresent()) {
             throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         }
@@ -77,7 +78,7 @@ public class ReviewService {
         return review;
     }
 
-    public void update(Review review) throws RestException {
+    public void update(ReviewRequest review) throws RestException {
         Optional<Review> row = reviewRepository.findById(review.getId());
         Review item;
         if (row.isPresent()) {
@@ -85,25 +86,20 @@ public class ReviewService {
         } else {
             throw new RestException(HttpStatus.NOT_FOUND, "Review not fount", "review");
         }
-        Optional<User> user = userRepository.findByUsername(review.getAuthor().getUsername());
+        Optional<User> user = userRepository.findByUsername(review.getAuthor());
         if (!user.isPresent()) {
             throw new RestException(HttpStatus.NOT_FOUND, "Author is not exist", "author");
         }else {
-            review.setAuthor(user.get());
+            item.setAuthor(user.get());
         }
-        Optional<Game> game = gameRepository.findByName(review.getGame().getName());
+        Optional<Game> game = gameRepository.findByName(review.getGame());
         if (!game.isPresent()) {
             throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         } else {
-            review.setGame(game.get());
+            item.setGame(game.get());
         }
-        if ("".equals(review.getReview())) {
-            review.setReview(item.getReview());
-        }
-        if (Objects.isNull(review.getDate())) {
-            review.setDate(item.getDate());
-        }
-        reviewRepository.save(review);
+        item.setReview(review.getReview());
+        reviewRepository.save(item);
         log.info("The review has been updated");
     }
 }
