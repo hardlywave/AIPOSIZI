@@ -1,0 +1,56 @@
+import React, {Component, useCallback} from "react";
+import { Button, TextField } from '@material-ui/core';
+import axios from 'axios';
+import {useDropzone} from "react-dropzone";
+const axiosPOSTconfig = {headers: {'Content-Type': 'application/json'}};
+
+
+class CreateGame extends Component{
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            name: "",
+            price: "",
+            description: "",
+            date: ""
+        }
+    }
+
+    onChange = (e) => {
+        this.setState({[e.target.id]: e.target.value});
+    }
+
+    onSubmit = (event) => {
+        let {name, price, description, date} = this.state;
+        event.preventDefault();
+        axios.post('http://localhost:8082/games/create', JSON.stringify({
+            'name': name,
+            'price': price,
+            'description': description,
+            'date': date,
+        }), axiosPOSTconfig)
+            .then((response) => {
+            this.setState({status: response.data.status});
+            })
+            .catch((error) => {console.log(error)});
+    }
+
+    render() {
+        let {name, price, description, date} = this.state;
+        return(
+            <main>
+                <div>
+                    <form onSubmit={this.onSubmit}>
+                    <TextField id="name" type="text" value={name} placeholder={"Name"} onChange={this.onChange}/><br/>
+                    <TextField id="price" type="text" value={price} placeholder={"Price"} onChange={this.onChange}/><br/>
+                    <TextField id="description" type="text" value={description} placeholder={"Description"} onChange={this.onChange}/><br/>
+                    <TextField id="date" type="text" value={date} placeholder={"Date"} onChange={this.onChange}/><br/>
+                    <Button onClick={this.onSubmit} variant="contained" color="primary">Create Game</Button>
+                    </form>
+                </div>
+            </main>
+        );
+    }
+}
+export default CreateGame;
