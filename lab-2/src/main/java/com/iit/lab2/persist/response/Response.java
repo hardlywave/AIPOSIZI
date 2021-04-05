@@ -1,4 +1,4 @@
-package com.iit.lab2.response;
+package com.iit.lab2.persist.response;
 // сделать дату стринг, или обжект, посмотрим, ну и если строка то просто ещё раз конвертировать :)))) если обжект, то тоже можно будет ччекнуть, хыыыыыыыыыыыыыыыыыыыыыыы
 public class Response {
     private final int status;

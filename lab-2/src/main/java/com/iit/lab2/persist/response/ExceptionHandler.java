@@ -1,4 +1,4 @@
-package com.iit.lab2.response;
+package com.iit.lab2.persist.response;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;

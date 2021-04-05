@@ -1,4 +1,4 @@
-package com.iit.lab2.response;
+package com.iit.lab2.persist.response;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

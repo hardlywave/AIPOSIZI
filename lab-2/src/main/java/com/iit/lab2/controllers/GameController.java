@@ -1,7 +1,9 @@
 package com.iit.lab2.controllers;
 
 import com.iit.lab2.persist.entity.Game;
-import com.iit.lab2.response.RestException;
+import com.iit.lab2.persist.request.GameRequest;
+import com.iit.lab2.persist.response.GameResponse;
+import com.iit.lab2.persist.response.RestException;
 import com.iit.lab2.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,8 +28,8 @@ public class GameController {
     }
 
     @GetMapping("/games/{id}")
-    public Game getGame(@PathVariable Long id) throws RestException {
-        return gameService.findById(id).get();
+    public GameResponse getGame(@PathVariable Long id) throws RestException {
+        return gameService.getGame(id);
     }
 
     @PostMapping("/games/find")
@@ -41,17 +43,17 @@ public class GameController {
     }
 
     @GetMapping("/games/update/{id}")
-    public Game updateGame(@PathVariable Long id) throws RestException {
-        return gameService.findById(id).get();
+    public GameResponse updateGame(@PathVariable Long id) throws RestException {
+        return new GameResponse(gameService.findById(id).get());
     }
 
     @PostMapping("/games/update/{id}")
-    public void updateGame(@PathVariable Long id, @RequestBody Game game) throws RestException {
+    public void updateGame(@PathVariable Long id, @RequestBody GameRequest game) throws RestException {
         gameService.update(game);
     }
 
     @PostMapping("/games/create")
-    public void registerNewGame(@RequestBody Game game) throws RestException {
+    public void registerNewGame(@RequestBody GameRequest game) throws RestException {
         gameService.create(game);
     }
 

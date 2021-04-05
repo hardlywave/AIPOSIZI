@@ -7,7 +7,7 @@ import com.iit.lab2.persist.repo.GameRepository;
 import com.iit.lab2.persist.repo.ReviewRepository;
 import com.iit.lab2.persist.repo.UserRepository;
 import com.iit.lab2.persist.request.ReviewRequest;
-import com.iit.lab2.response.RestException;
+import com.iit.lab2.persist.response.RestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -43,7 +42,7 @@ public class ReviewService {
         }
         Optional<Game> game = gameRepository.findByName(review.getGame());
         if (!game.isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Image is not exist", "game");
+            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         }
         newReview.setGame(game.get());
         newReview.setAuthor(user.get());
@@ -94,7 +93,7 @@ public class ReviewService {
         }
         Optional<Game> game = gameRepository.findByName(review.getGame());
         if (!game.isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Image is not exist", "game");
+            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
         } else {
             item.setGame(game.get());
         }

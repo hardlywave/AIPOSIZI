@@ -6,7 +6,9 @@ import com.iit.lab2.persist.entity.Game;
 import com.iit.lab2.persist.repo.GameRepository;
 import com.iit.lab2.persist.repo.KeyRepository;
 import com.iit.lab2.persist.repo.ReviewRepository;
-import com.iit.lab2.response.RestException;
+import com.iit.lab2.persist.request.GameRequest;
+import com.iit.lab2.persist.response.GameResponse;
+import com.iit.lab2.persist.response.RestException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +39,19 @@ public class GameService {
     }
 
 
-    public void create(Game game) throws RestException {
+    public void create(GameRequest game) throws RestException {
         Game game1 = new Game();
         game1.copyAttribute(game);
         if (gameRepository.findByName(game1.getName()).isPresent()) {
             throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "Name is busy", "name");
         }
         gameRepository.save(game1);
+        if (Objects.nonNull(game.getLinkMainImage())) {
+            uploadMainImage(game1.getId(), game.getLinkMainImage());
+        }
+        for (MultipartFile file : game.getLinksImages()) {
+            uploadScreenshot(game.getId(), file);
+        }
         log.info("{} was created", game.getName());
     }
 
@@ -66,10 +74,10 @@ public class GameService {
     public Optional<Game> findById(Long id) throws RestException {
         Optional<Game> game = gameRepository.findById(id);
         if (game.isPresent()) {
-            log.info("Image with id {} was found", id);
+            log.info("Game with id {} was found", id);
         } else {
-            log.info("Image with id {} wasn't found", id);
-            throw new RestException(HttpStatus.NOT_FOUND, "Image not found", "game");
+            log.info("Game with id {} wasn't found", id);
+            throw new RestException(HttpStatus.NOT_FOUND, "Game not found", "game");
         }
         return game;
     }
@@ -77,15 +85,15 @@ public class GameService {
     public Optional<Game> findByName(String name) throws RestException {
         Optional<Game> game = gameRepository.findByName(name);
         if (game.isPresent()) {
-            log.info("Image with name {} was found", name);
+            log.info("Game with name {} was found", name);
         } else {
-            log.info("Image with name {} wasn't found", name);
-            throw new RestException(HttpStatus.NOT_FOUND, "Image not found", "game");
+            log.info("Game with name {} wasn't found", name);
+            throw new RestException(HttpStatus.NOT_FOUND, "Game not found", "game");
         }
         return game;
     }
 
-    public void update(Game game) throws RestException {
+    public void update(GameRequest game) throws RestException {
         Optional<Game> row = findById(game.getId());
         Game item;
         if (row.isPresent()) {
@@ -98,16 +106,22 @@ public class GameService {
         } else {
             throw new RestException(HttpStatus.NOT_FOUND, "Not found!", "game");
         }
-        if (Objects.isNull(game.getDate())) {
-            game.setDate(item.getDate());
+        if (Objects.nonNull(game.getDate())) {
+            item.setDate(game.getDate());
         }
-        if ("".equals(game.getDescription())) {
-            game.setDescription(item.getDescription());
+        if (!"".equals(game.getDescription())) {
+            item.setDescription(game.getDescription());
         }
-        if (Objects.isNull(game.getPrice())) {
-            game.setPrice(item.getPrice());
+        if (Objects.nonNull(game.getPrice())) {
+            item.setPrice(game.getPrice());
         }
-        gameRepository.save(game);
+        if (Objects.nonNull(game.getLinkMainImage())) {
+            uploadMainImage(game.getId(), game.getLinkMainImage());
+        }
+        for (MultipartFile file : game.getLinksImages()) {
+            uploadMainImage(game.getId(), file);
+        }
+        gameRepository.save(item);
         log.info("The game has been updated");
     }
 
@@ -117,7 +131,7 @@ public class GameService {
 //        If file is an image
         isImage(file);
 //        The game exist in our db
-        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Image not found"));
+        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Game not found"));
 //        Gram some metadata from file if any
         Map<String, String> metadata = extractMetadata(file);
 //        Store the image in s3 and update db(link) with s3 image lik
@@ -138,7 +152,7 @@ public class GameService {
 //        If file is an image
         isImage(file);
 //        The game exist in our db
-        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Image not found"));
+        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Game not found"));
 //        Gram some metadata from file if any
         Map<String, String> metadata = extractMetadata(file);
 //        Store the image in s3 and update db(link) with s3 image lik
@@ -190,5 +204,17 @@ public class GameService {
                 game.getId());
         return game.getLinkMainImage().map(key -> fileStore.download(path, key))
                 .orElse(new byte[0]);
+    }
+
+    public GameResponse getGame(Long id) throws RestException {
+        Optional<Game> game = findById(id);
+        GameResponse gameResponse = new GameResponse(game.get());
+        if (Objects.nonNull(game.get().getLinkMainImage())) {
+            gameResponse.setLinkMainImage(downloadMainImage(id));
+        }
+        for (int i = 0; i < game.get().getLinksImages().size(); i++) {
+            gameResponse.addScreenshot(downloadGameScreenshot(game.get(), i));
+        }
+        return gameResponse;
     }
 }

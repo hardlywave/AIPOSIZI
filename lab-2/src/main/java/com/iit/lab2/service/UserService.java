@@ -3,7 +3,7 @@ package com.iit.lab2.service;
 import com.iit.lab2.persist.entity.User;
 import com.iit.lab2.persist.repo.ReviewRepository;
 import com.iit.lab2.persist.repo.UserRepository;
-import com.iit.lab2.response.RestException;
+import com.iit.lab2.persist.response.RestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

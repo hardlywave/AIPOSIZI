@@ -1,7 +1,7 @@
 package com.iit.lab2.controllers;
 
 import com.iit.lab2.persist.entity.User;
-import com.iit.lab2.response.RestException;
+import com.iit.lab2.persist.response.RestException;
 import com.iit.lab2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,8 @@
 package com.iit.lab2.persist.entity;
 
+import com.iit.lab2.persist.request.GameRequest;
+import com.iit.lab2.persist.response.GameResponse;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +31,14 @@ public class Game {
 
     }
 
-    public void copyAttribute(Game game) {
+    public void copyAttribute(GameResponse game) {
+        this.name = game.getName();
+        this.price = game.getPrice();
+        this.description = game.getDescription();
+        this.date = game.getDate();
+    }
+
+    public void copyAttribute(GameRequest game) {
         this.name = game.getName();
         this.price = game.getPrice();
         this.description = game.getDescription();
