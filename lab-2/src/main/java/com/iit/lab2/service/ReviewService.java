@@ -43,7 +43,7 @@ public class ReviewService {
         }
         Optional<Game> game = gameRepository.findByName(review.getGame());
         if (!game.isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
+            throw new RestException(HttpStatus.NOT_FOUND, "Image is not exist", "game");
         }
         newReview.setGame(game.get());
         newReview.setAuthor(user.get());
@@ -94,7 +94,7 @@ public class ReviewService {
         }
         Optional<Game> game = gameRepository.findByName(review.getGame());
         if (!game.isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
+            throw new RestException(HttpStatus.NOT_FOUND, "Image is not exist", "game");
         } else {
             item.setGame(game.get());
         }

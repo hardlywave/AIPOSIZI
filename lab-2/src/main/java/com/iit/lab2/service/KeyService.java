@@ -34,7 +34,7 @@ public class KeyService {
         newKey.setKey(key.getKey());
         Optional<Game> game = gameRepository.findByName(key.getGame());
         if (!game.isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
+            throw new RestException(HttpStatus.NOT_FOUND, "Image is not exist", "game");
         }
         newKey.setGame(game.get());
         keyRepository.save(newKey);
@@ -84,7 +84,7 @@ public class KeyService {
         }
         Optional<Game> game = gameRepository.findByName(key.getGame());
         if (!game.isPresent()) {
-            throw new RestException(HttpStatus.NOT_FOUND, "Game is not exist", "game");
+            throw new RestException(HttpStatus.NOT_FOUND, "Image is not exist", "game");
         }
         item.setGame(game.get());
         keyRepository.save(item);

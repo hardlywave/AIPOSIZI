@@ -66,10 +66,10 @@ public class GameService {
     public Optional<Game> findById(Long id) throws RestException {
         Optional<Game> game = gameRepository.findById(id);
         if (game.isPresent()) {
-            log.info("Game with id {} was found", id);
+            log.info("Image with id {} was found", id);
         } else {
-            log.info("Game with id {} wasn't found", id);
-            throw new RestException(HttpStatus.NOT_FOUND, "Game not found", "game");
+            log.info("Image with id {} wasn't found", id);
+            throw new RestException(HttpStatus.NOT_FOUND, "Image not found", "game");
         }
         return game;
     }
@@ -77,10 +77,10 @@ public class GameService {
     public Optional<Game> findByName(String name) throws RestException {
         Optional<Game> game = gameRepository.findByName(name);
         if (game.isPresent()) {
-            log.info("Game with name {} was found", name);
+            log.info("Image with name {} was found", name);
         } else {
-            log.info("Game with name {} wasn't found", name);
-            throw new RestException(HttpStatus.NOT_FOUND, "Game not found", "game");
+            log.info("Image with name {} wasn't found", name);
+            throw new RestException(HttpStatus.NOT_FOUND, "Image not found", "game");
         }
         return game;
     }
@@ -117,7 +117,7 @@ public class GameService {
 //        If file is an image
         isImage(file);
 //        The game exist in our db
-        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Game not found"));
+        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Image not found"));
 //        Gram some metadata from file if any
         Map<String, String> metadata = extractMetadata(file);
 //        Store the image in s3 and update db(link) with s3 image lik
@@ -138,7 +138,7 @@ public class GameService {
 //        If file is an image
         isImage(file);
 //        The game exist in our db
-        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Game not found"));
+        Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalStateException("Image not found"));
 //        Gram some metadata from file if any
         Map<String, String> metadata = extractMetadata(file);
 //        Store the image in s3 and update db(link) with s3 image lik
