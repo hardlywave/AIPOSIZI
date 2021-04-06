@@ -16,6 +16,10 @@ public class GameRequest {
     private MultipartFile linkMainImage;
     private List<MultipartFile> linksImages;
 
+    public GameRequest() {
+        linksImages = new ArrayList<>();
+    }
+
     public GameRequest(Game game) {
         id = game.getId();
         name = game.getName();
