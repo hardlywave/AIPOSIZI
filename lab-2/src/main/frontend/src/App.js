@@ -4,6 +4,11 @@ import CreateGame from "./create_components/CreateGame";
 import CreateKey from "./create_components/CreateKey";
 import CreateReview from "./create_components/CreateReview";
 import CreateUser from "./create_components/CreateUser";
+import DeleteReview from "./delete_components/DeleteReview";
+import DeleteUser from "./delete_components/DeleteUser";
+import DeleteKey from "./delete_components/DeleteKey";
+import DeleteGame from "./delete_components/DeleteGame";
+
 import {BrowserRouter, Route} from "react-router-dom";
 import MenuPopupState from "./MenuPopupState";
 import {Games} from "./components/Games";
@@ -28,6 +33,10 @@ class App extends Component{
                     <Route exact path='/CreateReview' component={CreateReview}/>
                     <Route exact path='/CreateKey' component={CreateKey}/>
                     <Route exact path='/CreateUser' component={CreateUser}/>
+                    <Route exact path='/DeleteGame' component={DeleteGame}/>
+                    <Route exact path='/DeleteKey' component={DeleteKey}/>
+                    <Route exact path='/DeleteUser' component={DeleteUser}/>
+                    <Route exact path='/DeleteReview' component={DeleteReview}/>
                 </div>
             </BrowserRouter>
         );
