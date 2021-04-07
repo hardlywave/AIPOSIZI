@@ -40,7 +40,7 @@ class CreateKey extends Component{
                 <div>
                     <form onSubmit={this.onSubmit}>
                         <TextField id="key" type="text" value={key} placeholder={"Key"} onChange={this.onChange}/><br/>
-                        <TextField id="game" type="text" value={game} placeholder={"Image name"} onChange={this.onChange}/><br/>
+                        <TextField id="game" type="text" value={game} placeholder={"Game name"} onChange={this.onChange}/><br/>
                         <br/>
                         <Button onClick={this.onSubmit} variant="contained" color="primary">Create Key</Button><br/>
                         <br/><Button component={Link} to="/Keys" variant="contained" color="primary">Key's Table</Button>
