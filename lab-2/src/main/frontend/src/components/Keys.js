@@ -22,13 +22,21 @@ export class Keys extends Component{
             <main role="main" className="container">
                 <div align="center">
                     {this.state.rows === null && <p>Loading menu...</p>}
-                    <table>
+                    <table className="keys">
                         <thead>
-                            <tr><th width={50}>Id</th><th width={300}>Key</th><th width={200}>Game</th></tr>
+                            <tr>
+                                <th width={50}>Id</th>
+                                <th width={300}>Key</th>
+                                <th width={200}>Game</th>
+                            </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(key => (
-                            <tbody>
-                                <tr><td width={50}>{key.id}</td><td width={300}>{key.key}</td><td width={200}>{key.game.name}</td></tr>
+                            <tbody align="center">
+                                <tr>
+                                    <td width={50}>{key.id}</td>
+                                    <td width={300}>{key.key}</td>
+                                    <td width={200}>{key.game.name}</td>
+                                </tr>
                             </tbody>
                         ))
                         }
@@ -36,7 +44,6 @@ export class Keys extends Component{
                     <div>
                         <Button component={Link} to="/CreateKey" variant="contained" color="primary">Add Key</Button>
                         <Button component={Link} to="/DeleteKey" variant="contained" color="primary">Delete Key</Button>
-
                     </div>
                 </div>
             </main>

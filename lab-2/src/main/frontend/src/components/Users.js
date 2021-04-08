@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import {Avatar} from "@material-ui/core";
 
 export class Users extends Component{
     constructor(props) {
@@ -22,13 +23,27 @@ export class Users extends Component{
             <main role="main" className="container">
                 <div align="center">
                     {this.state.rows === null && <p>Loading menu...</p>}
-                    <table>
+                    <table className="users">
                         <thead>
-                        <tr><th width={50}>id</th><th width={100}>Date</th><th width={300}>Email</th><th width={300}>Password</th><th width={200}>Username</th></tr>
+                            <tr>
+                                <th width={50}>id</th>
+                                <th width={100}>Date</th>
+                                <th width={300}>Email</th>
+                                <th width={300}>Password</th>
+                                <th width={200}>Username</th>
+                                <th width={50}>Avatar</th>
+                            </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(user => (
-                            <tbody>
-                            <tr><td width={50}>{user.id}</td><td width={100}>{user.date}</td><td width={300}>{user.email}</td><td width={300}>{user.password}</td><td width={200}>{user.username}</td></tr>
+                            <tbody align="center">
+                                <tr>
+                                    <td width={50}>{user.id}</td>
+                                    <td width={100}>{user.date}</td>
+                                    <td width={300}>{user.email}</td>
+                                    <td width={300}>{user.password}</td>
+                                    <td width={200}>{user.username}</td>
+                                    <td width={50}><Avatar alt="Remy Sharp" url={user.image}/></td>
+                                </tr>
                             </tbody>
                         ))
                         }

@@ -23,13 +23,27 @@ export class Games extends Component{
             <main role="main" className="container">
                 <div align="center">
                     {this.state.rows === null && <p>Loading menu...</p>}
-                    <table>
+                    <table className="games">
                         <thead>
-                            <tr><th width={50}>id</th><th width={100}>Date</th><th width={500}>Description</th><th width={200}>Name</th><th width={50}>Price</th><th width={50}>Image</th></tr>
+                            <tr>
+                                <th width={50}>id</th>
+                                <th width={100}>Date</th>
+                                <th width={500}>Description</th>
+                                <th width={200}>Name</th>
+                                <th width={50}>Price</th>
+                                <th width={50}>Image</th>
+                            </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(game => (
-                            <tbody>
-                                <tr><td width={50}>{game.id}</td><td width={100}>{game.date}</td><td width={500}>{game.description}</td><td width={200}>{game.name}</td><td width={50}>{game.price}</td><td width={50}><Avatar alt="Remy Sharp" url={game.image}/></td></tr>
+                            <tbody align="center">
+                                <tr>
+                                    <td width={50}>{game.id}</td>
+                                    <td width={100}>{game.date}</td>
+                                    <td width={500}>{game.description}</td>
+                                    <td width={200}>{game.name}</td>
+                                    <td width={50}>{game.price}</td>
+                                    <td width={50}><Avatar alt="Remy Sharp" url={game.image}/></td>
+                                </tr>
                             </tbody>
                         ))}
                     </table>

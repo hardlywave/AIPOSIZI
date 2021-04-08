@@ -22,21 +22,31 @@ export class Review extends Component{
             <main role="main" className="container">
                 <div align="center">
                     {this.state.rows === null && <p>Loading menu...</p>}
-                    <table>
+                    <table className="reviews">
                         <thead>
-                        <tr><th width={50}>Id</th><th width={100}>Data</th><th width={500}>Reviews</th><th width={200}>Author</th><th width={200}>Game</th></tr>
+                            <tr>
+                                <th width={50}>Id</th>
+                                <th width={100}>Data</th>
+                                <th width={500}>Reviews</th>
+                                <th width={200}>Author</th>
+                                <th width={200}>Game</th>
+                            </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(reviews => (
-                            <tbody>
-                            <tr><td width={50}>{reviews.id}</td><td width={100}>{reviews.date}</td><td width={500}>{reviews.review}</td><td width={200}>{reviews.author.username}</td><td width={200}>{reviews.game.name}</td></tr>
+                            <tbody align="center">
+                                <tr>
+                                    <td width={50}>{reviews.id}</td>
+                                    <td width={100}>{reviews.date}</td>
+                                    <td width={500}>{reviews.review}</td>
+                                    <td width={200}>{reviews.author.username}</td>
+                                    <td width={200}>{reviews.game.name}</td>
+                                </tr>
                             </tbody>
-                        ))
-                        }
+                        ))}
                     </table>
                     <div>
                         <Button component={Link} to="/CreateReview" variant="contained" color="primary">Add Review</Button>
                         <Button component={Link} to="/DeleteReview" variant="contained" color="primary">Delete Review</Button>
-
                     </div>
                 </div>
             </main>

@@ -46,8 +46,8 @@ class CreateGame extends Component{
                         <TextField id="price" type="text" value={price} placeholder={"Price"} onChange={this.onChange}/><br/>
                         <TextField id="description" type="text" value={description} placeholder={"Description"} onChange={this.onChange}/><br/>
                         <TextField id="date" type="text" value={date} placeholder={"Date"} onChange={this.onChange}/><br/>
-                        <br/>
-                        <Button onClick={this.onSubmit} variant="contained" color="primary">Create Game</Button><br/>
+
+                        <br/><Button onClick={this.onSubmit} variant="contained" color="primary">Create Game</Button><br/>
                         <br/><Button component={Link} to="/Image" variant="contained" color="primary" >Add Image</Button><br/>
                         <br/><Button component={Link} to="/Games" variant="contained" color="primary" >Game's Table</Button><br/>
                     </form>
