@@ -12,8 +12,8 @@ public class GameResponse {
     private Double price;
     private String description;
     private LocalDate date;
-    private byte[] linkMainImage;
-    private List<byte[]> linksImages;
+    private String linkMainImage;
+    private List<String> linksImages;
 
     public GameResponse(Game game) {
         id = game.getId();
@@ -21,7 +21,12 @@ public class GameResponse {
         price = game.getPrice();
         description = game.getDescription();
         date = game.getDate();
+        int PORT = 8082;
+        linkMainImage = String.format("http://localhost:%d/games/%d/mainImage", PORT, id);
         linksImages = new ArrayList<>();
+        for (int i = 0; i < game.getLinksImages().size(); i++) {
+            linksImages.add(String.format("http://localhost:%d/games/%d/screenshot/%d", PORT, id, i));
+        }
     }
 
     public void setId(Long id) {
@@ -44,15 +49,7 @@ public class GameResponse {
         this.date = date;
     }
 
-    public void setLinkMainImage(byte[] linkMainImage) {
-        this.linkMainImage = linkMainImage;
-    }
-
-    public void setLinksImages(List<byte[]> linksImages) {
-        this.linksImages = linksImages;
-    }
-
-    public void addScreenshot(byte[] screenshot) {
+    public void addScreenshot(String screenshot) {
         linksImages.add(screenshot);
     }
 
@@ -76,11 +73,19 @@ public class GameResponse {
         return date;
     }
 
-    public byte[] getLinkMainImage() {
+    public String getLinkMainImage() {
         return linkMainImage;
     }
 
-    public List<byte[]> getLinksImages() {
+    public void setLinkMainImage(String linkMainImage) {
+        this.linkMainImage = linkMainImage;
+    }
+
+    public List<String> getLinksImages() {
         return linksImages;
+    }
+
+    public void setLinksImages(List<String> linksImages) {
+        this.linksImages = linksImages;
     }
 }

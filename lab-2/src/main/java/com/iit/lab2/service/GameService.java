@@ -29,6 +29,7 @@ public class GameService {
     private final KeyRepository keyRepository;
     private final ReviewRepository reviewRepository;
     private final FileStore fileStore;
+    private final int PORT = 8082;
 
     @Autowired
     public GameService(GameRepository gameRepository, KeyRepository keyRepository, ReviewRepository reviewRepository, FileStore fileStore) {
@@ -55,12 +56,16 @@ public class GameService {
         log.info("{} was created", game.getName());
     }
 
-    public List<Game> findAll() {
+    public List<GameResponse> findAll() throws RestException {
         Iterable<Game> source = gameRepository.findAll();
         List<Game> target = new ArrayList<>();
         source.forEach(target::add);
+        List<GameResponse> response = new ArrayList<>();
+        for (Game game : target) {
+            response.add(getGame(game.getId()));
+        }
         log.info("{} games was found", target.size());
-        return target;
+        return response;
     }
 
     public void delete(Long id) throws RestException {
@@ -167,15 +172,6 @@ public class GameService {
         }
     }
 
-    byte[] downloadGameScreenshot(Game game, int numberScreenshot) {
-        String path = String.format("%s/%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), "games", game.getId());
-
-        return Optional.of(game.getLinksImages().get(numberScreenshot))
-                .map(key -> fileStore.download(path, key))
-                .orElse(new byte[0]);
-
-    }
-
     private Map<String, String> extractMetadata(MultipartFile file) {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
@@ -197,7 +193,6 @@ public class GameService {
 
     public byte[] downloadMainImage(Long id) throws RestException {
         Game game = findById(id).get();
-        System.out.println(id);
         String path = String.format("%s/%s/%s",
                 BucketName.PROFILE_IMAGE.getBucketName(),
                 "games",
@@ -206,15 +201,18 @@ public class GameService {
                 .orElse(new byte[0]);
     }
 
+    public byte[] downloadScreenshot(Long id, long idScreenshot) throws RestException {
+        Game game = findById(id).get();
+        String path = String.format("%s/%s/%s",
+                BucketName.PROFILE_IMAGE.getBucketName(),
+                "games",
+                game.getId());
+        return Optional.of(game.getLinksImages().get((int) idScreenshot)).map(key -> fileStore.download(path, key))
+                .orElse(new byte[0]);
+    }
+
     public GameResponse getGame(Long id) throws RestException {
         Optional<Game> game = findById(id);
-        GameResponse gameResponse = new GameResponse(game.get());
-        if (Objects.nonNull(game.get().getLinkMainImage())) {
-            gameResponse.setLinkMainImage(downloadMainImage(id));
-        }
-        for (int i = 0; i < game.get().getLinksImages().size(); i++) {
-            gameResponse.addScreenshot(downloadGameScreenshot(game.get(), i));
-        }
-        return gameResponse;
+        return new GameResponse(game.get());
     }
 }

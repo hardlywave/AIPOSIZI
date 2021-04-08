@@ -1,35 +1,28 @@
-package com.iit.lab2.persist.entity;
+package com.iit.lab2.persist.response;
 
-import com.iit.lab2.persist.request.UserRequest;
+import com.iit.lab2.persist.entity.User;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.Optional;
 
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserResponse {
     private Long id;
-
-    @Column(unique = true, nullable = false)
     private String email;
-
-    @Column(unique = true, nullable = false)
     private String username;
-
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private LocalDate date;
-
     private String linkImage;
 
-    public User() {
+    public UserResponse() {
+    }
+
+    public UserResponse(User user) {
+        id = user.getId();
+        email = user.getEmail();
+        username = user.getUsername();
+        password = user.getPassword();
+        date = user.getDate();
+        final int PORT = 8082;
+        linkImage = String.format("http://localhost:%d/user/%d/mainImage", PORT, id);
     }
 
     public Long getId() {
@@ -72,21 +65,11 @@ public class User {
         this.date = date;
     }
 
-    public Optional<String> getLinkImage() {
-        if (Objects.nonNull(linkImage)) {
-            return Optional.of(linkImage);
-        }
-        return Optional.empty();
+    public String getLinkImage() {
+        return linkImage;
     }
 
     public void setLinkImage(String linkImage) {
         this.linkImage = linkImage;
-    }
-
-    public void copyAttribute(UserRequest user) {
-        this.email = user.getEmail();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.date = user.getDate();
     }
 }

@@ -23,7 +23,7 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public List<Game> getGames() {
+    public List<GameResponse> getGames() throws RestException {
         return gameService.findAll();
     }
 
@@ -55,6 +55,11 @@ public class GameController {
     @PostMapping("/games/create")
     public void registerNewGame(@RequestBody GameRequest game) throws RestException {
         gameService.create(game);
+    }
+
+    @GetMapping("/games/{id}/screenshot/{idScreenshot}")
+    public byte[] getScreenshot(@PathVariable Long id, @PathVariable Long idScreenshot) throws RestException {
+        return gameService.downloadScreenshot(id, idScreenshot);
     }
 
     @GetMapping("/games/{id}/mainImage")
