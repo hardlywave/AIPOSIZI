@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 const axiosPOSTconfig = {headers: {'Content-Type': 'application/json'}};
 
 
@@ -56,4 +56,4 @@ class CreateGame extends Component{
         );
     }
 }
-export default CreateGame;
+export default withRouter(CreateGame);

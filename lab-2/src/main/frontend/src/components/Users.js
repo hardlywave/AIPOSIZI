@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import {Avatar} from "@material-ui/core";
 
-export class Users extends Component{
+class Users extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -32,6 +32,7 @@ export class Users extends Component{
                                 <th width={300}>Password</th>
                                 <th width={200}>Username</th>
                                 <th width={50}>Avatar</th>
+                                <th width={30}>Action</th>
                             </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(user => (
@@ -42,7 +43,8 @@ export class Users extends Component{
                                     <td width={300}>{user.email}</td>
                                     <td width={300}>{user.password}</td>
                                     <td width={200}>{user.username}</td>
-                                    <td width={50}><Avatar alt="Remy Sharp" url={user.image}/></td>
+                                    <td width={50}><Avatar alt="Remy Sharp" src={user.linkImage}/></td>
+                                    <Button component={Link} to={'/users/update/' + user.id} variant="contained" color="primary">Update</Button>
                                 </tr>
                             </tbody>
                         ))
@@ -50,6 +52,7 @@ export class Users extends Component{
                     </table>
                     <div>
                         <Button component={Link} to="/CreateUser" variant="contained" color="primary">Add User</Button>
+                        <Button component={Link} to="/ImageUser" variant="contained" color="primary">Add Image</Button>
                         <Button component={Link} to="/DeleteUser" variant="contained" color="primary">Delete User</Button>
 
                     </div>
@@ -58,3 +61,4 @@ export class Users extends Component{
         );
     }
 }
+export default withRouter(Users);

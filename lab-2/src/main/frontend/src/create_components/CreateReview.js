@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 const axiosPOSTconfig = {headers: {'Content-Type': 'application/json'}};
 
 
@@ -11,7 +11,7 @@ class CreateReview extends Component{
         super(props)
         this.state = {
             author: '',
-            name: '',
+            game: '',
             review: ''
         }
     }
@@ -52,4 +52,4 @@ class CreateReview extends Component{
         );
     }
 }
-export default CreateReview;
+export default withRouter(CreateReview);

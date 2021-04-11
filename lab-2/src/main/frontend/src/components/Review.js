@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
-export class Review extends Component{
+class Review extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -30,6 +30,7 @@ export class Review extends Component{
                                 <th width={500}>Reviews</th>
                                 <th width={200}>Author</th>
                                 <th width={200}>Game</th>
+                                <th width={200}>Action</th>
                             </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(reviews => (
@@ -40,6 +41,7 @@ export class Review extends Component{
                                     <td width={500}>{reviews.review}</td>
                                     <td width={200}>{reviews.author.username}</td>
                                     <td width={200}>{reviews.game.name}</td>
+                                    <Button component={Link} to={'/reviews/update/' + reviews.id} variant="contained" color="primary">Update</Button>
                                 </tr>
                             </tbody>
                         ))}
@@ -53,3 +55,4 @@ export class Review extends Component{
         );
     }
 }
+export default withRouter(Review);

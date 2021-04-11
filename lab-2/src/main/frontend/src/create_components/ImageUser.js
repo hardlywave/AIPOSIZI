@@ -3,29 +3,29 @@ import axios from "axios";
 import {useDropzone} from "react-dropzone";
 import {withRouter} from "react-router-dom";
 
-const Image = () => {
+const ImageUser = () => {
 
-    const [game, setGame] = useState([]);
+    const [users, setGame] = useState([]);
 
-    const fetchGames = () => {
-        axios.get("http://localhost:8082/games").then(res => {
+    const fetchUsers = () => {
+        axios.get("http://localhost:8082/users").then(res => {
             console.log(res);
             setGame(res.data.data);
         })
     }
 
     useEffect(() => {
-        fetchGames();
+        fetchUsers();
     }, []);
 
-    return game.map((game, index) => {
+    return users.map((users, index) => {
             return (
-                    <div key={index}>
-                    {game.id ? (
-                        <img src={`http://localhost:8082/games/${game.id}/mainImage`}/>) : null}
-                    <h1>{game.name}</h1>
-                    <p>{game.price}</p>
-                    <MyDropzone id={game.id}/>
+                <div key={index}>
+                    {users.id ? (
+                        <img src={users.linkImage}/>) : null}
+                    <h1>{users.username}</h1>
+                    <p>{users.email}</p>
+                    <MyDropzone id={users.id}/>
                 </div>
             );
         }
@@ -38,7 +38,7 @@ function MyDropzone({id}) {
         console.log(file);
         const formData = new FormData();
         formData.append("file", file);
-        axios.post(`http://localhost:8082/games/${id}/mainImage/upload`,
+        axios.post(`http://localhost:8082/user/${id}/mainImage/upload`,
             formData,
             {
                 headers: {
@@ -51,8 +51,6 @@ function MyDropzone({id}) {
             console.log(err);
         });
 
-        // axios.post()
-        // Do somethin  g with the files
     }, [])
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
@@ -68,4 +66,4 @@ function MyDropzone({id}) {
     )
 }
 
-export default withRouter(Image);
+export default withRouter(ImageUser);

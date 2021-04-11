@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
 class DeleteKey extends Component{
 
@@ -42,4 +42,4 @@ class DeleteKey extends Component{
         );
     }
 }
-export default DeleteKey;
+export default withRouter(DeleteKey);

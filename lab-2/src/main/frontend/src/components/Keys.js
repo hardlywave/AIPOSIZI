@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import {Avatar} from "@material-ui/core";
 
-export class Keys extends Component{
+class Keys extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +29,8 @@ export class Keys extends Component{
                                 <th width={50}>Id</th>
                                 <th width={300}>Key</th>
                                 <th width={200}>Game</th>
+                                <th width={30}>Action</th>
+
                             </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(key => (
@@ -36,6 +39,10 @@ export class Keys extends Component{
                                     <td width={50}>{key.id}</td>
                                     <td width={300}>{key.key}</td>
                                     <td width={200}>{key.game.name}</td>
+
+                                    {/* Раскоментить, когда сделается DeleteKey
+                                    <Button component={Link} to={'/keys/delete/' + key.id} variant="contained" color="primary">Delete</Button>*/}
+                                    <Button component={Link} to={'/keys/update/' + key.id} variant="contained" color="primary">Update</Button>
                                 </tr>
                             </tbody>
                         ))
@@ -50,3 +57,4 @@ export class Keys extends Component{
         );
     }
 }
+export default withRouter(Keys);

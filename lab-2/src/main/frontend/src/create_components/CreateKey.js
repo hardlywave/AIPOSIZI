@@ -1,7 +1,7 @@
 import React, {Component, useCallback} from "react";
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 const axiosPOSTconfig = {headers: {'Content-Type': 'application/json'}};
 
 
@@ -50,4 +50,4 @@ class CreateKey extends Component{
         );
     }
 }
-export default CreateKey;
+export default withRouter(CreateKey);
