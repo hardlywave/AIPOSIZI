@@ -19,21 +19,27 @@ class UpdateUser extends Component{
     }
 
     onChange = (event) => {
-        this.setState({[event.target.id]: event.target.value});
+            this.setState({[event.target.id]: event.target.value});
     }
 
     onSubmit = (event) => {
-        let {email, username, password} = this.state;
         event.preventDefault();
-        axios.post(`http://localhost:8082/users/update/` + this.props.match.params.id, JSON.stringify({
-            'email': email,
-            'username': username,
-            'password': password
-        }), axiosPOSTconfig)
-            .then((response) => {
-                this.setState({status: response.data.status});
-            })
-            .catch((error) => {console.log(error)});
+        let {email, username, password} = this.state;
+        if((email === '') || (username === '') || (password === '')){
+            alert('You need Enter all Fields');
+        }
+        else{
+            axios.post(`http://localhost:8082/users/update/` + this.props.match.params.id, JSON.stringify({
+                'email': email,
+                'username': username,
+                'password': password,
+            }), axiosPOSTconfig)
+                .then((response) => {
+                    this.setState({status: response.data.status});
+                })
+                .catch((error) => {console.log(error)});
+        }
+
     }
 
     componentDidMount() {
@@ -53,8 +59,8 @@ class UpdateUser extends Component{
                         <TextField id="username" type="text" value={username} placeholder={"User Name"} onChange={this.onChange}/><br/>
                         <TextField id="password" type="text" value={password} placeholder={"Password"} onChange={this.onChange}/><br/>
                         <br/>
-                        <Button onClick={this.onSubmit} variant="contained" color="primary">Sign Up</Button><br/>
-                        <Button component={Link} to="/Users" variant="contained" color="primary">User's Table</Button>
+                        <Button onClick={this.onSubmit} variant="contained" color="primary">Update</Button><br/>
+                        <br/><Button component={Link} to="/Users" variant="contained" color="primary">User's Table</Button>
                     </form>
                 </div>
             </main>

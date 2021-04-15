@@ -23,15 +23,20 @@ class CreateReview extends Component{
     onSubmit = (event) => {
         let {author, game, review} = this.state;
         event.preventDefault();
-        axios.post('http://localhost:8082/reviews/create', JSON.stringify({
-            'author': author,
-            'game': game,
-            'review': review
-        }), axiosPOSTconfig)
-            .then((response) => {
-                this.setState({status: response.data.status});
-            })
-            .catch((error) => {console.log(error)});
+        if (author === '' || game === '' || review === ''){
+            alert('Enter all Fields');
+        }
+        else {
+            axios.post('http://localhost:8082/reviews/create', JSON.stringify({
+                'author': author,
+                'game': game,
+                'review': review,
+            }), axiosPOSTconfig)
+                .then((response) => {
+                    this.setState({status: response.data.status});
+                })
+                .catch((error) => {console.log(error)});
+        }
     }
 
     render() {
@@ -43,8 +48,8 @@ class CreateReview extends Component{
                         <TextField id="author" type="text" value={author} placeholder={"Author"} onChange={this.onChange}/><br/>
                         <TextField id="game" type="text" value={game} placeholder={"Game"} onChange={this.onChange}/><br/>
                         <TextField id="review" type="text" value={review} placeholder={"Review"} onChange={this.onChange}/><br/>
-                        <br/>
-                        <Button onClick={this.onSubmit} variant="contained" color="primary">Create Review</Button><br/>
+
+                        <br/><Button onClick={this.onSubmit} variant="contained" color="primary">Create Review</Button><br/>
                         <br/><Button component={Link} to="/Review" variant="contained" color="primary">Review's Table</Button>
                     </form>
                 </div>

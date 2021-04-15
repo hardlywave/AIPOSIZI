@@ -23,15 +23,20 @@ class CreateUser extends Component{
     onSubmit = (event) => {
         let {email, username, password} = this.state;
         event.preventDefault();
-        axios.post('http://localhost:8082/users/create', JSON.stringify({
-            'email': email,
-            'username': username,
-            'password': password
-        }), axiosPOSTconfig)
-            .then((response) => {
-                this.setState({status: response.data.status});
-            })
-            .catch((error) => {console.log(error)});
+        if(email === '' || username === '' || password === ''){
+            alert('Enter all Fields');
+        }
+        else {
+            axios.post('http://localhost:8082/users/create', JSON.stringify({
+                'email': email,
+                'username': username,
+                'password': password,
+            }), axiosPOSTconfig)
+                .then((response) => {
+                    this.setState({status: response.data.status});
+                })
+                .catch((error) => {console.log(error)});
+        }
     }
 
     render() {
@@ -43,9 +48,9 @@ class CreateUser extends Component{
                         <TextField id="email" type="text" value={email} placeholder={"Email"} onChange={this.onChange}/><br/>
                         <TextField id="username" type="text" value={username} placeholder={"User Name"} onChange={this.onChange}/><br/>
                         <TextField id="password" type="text" value={password} placeholder={"Password"} onChange={this.onChange}/><br/>
-                        <br/>
-                        <Button onClick={this.onSubmit} variant="contained" color="primary">Sign Up</Button><br/>
-                        <Button component={Link} to="/Users" variant="contained" color="primary">User's Table</Button>
+
+                        <br/><Button onClick={this.onSubmit} variant="contained" color="primary">Sign Up</Button><br/>
+                        <br/><Button component={Link} to="/Users" variant="contained" color="primary">User's Table</Button>
                     </form>
                 </div>
             </main>

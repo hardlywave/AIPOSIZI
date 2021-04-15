@@ -24,16 +24,22 @@ class CreateGame extends Component{
     onSubmit = (event) => {
         let {name, price, description, date} = this.state;
         event.preventDefault();
-        axios.post('http://localhost:8082/games/create', JSON.stringify({
-            'name': name,
-            'price': price,
-            'description': description,
-            'date': date,
-        }), axiosPOSTconfig)
-            .then((response) => {
-            this.setState({status: response.data.status});
-            })
-            .catch((error) => {console.log(error)});
+        if(name === '' || price === '' || description === '' || data === ''){
+            alert('Enter all Fields');
+        }
+        else{
+            axios.post('http://localhost:8082/games/create', JSON.stringify({
+                'name': name,
+                'price': price,
+                'description': description,
+                'date': date,
+            }), axiosPOSTconfig)
+                .then((response) => {
+                    this.setState({status: response.data.status});
+                    alert('Creating complete');
+                })
+                .catch((error) => {console.log(error) || alert(error)});
+        }
     }
 
     render() {

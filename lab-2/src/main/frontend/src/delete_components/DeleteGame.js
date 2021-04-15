@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import axios from 'axios';
 import {withRouter, Redirect, Link} from 'react-router-dom';
 import * as PropTypes from "prop-types";
-import {func} from "prop-types";
+import Button from "@material-ui/core/Button";
 
 
 Redirect.propTypes = {to: PropTypes.string};
@@ -29,17 +29,16 @@ class DeleteGame extends Component {
     }
 
     render() {
+        if (this.state.status === 1) {
+            return (
+                <Redirect to={'/Games'}/>
+            );
+        }
         return (
-                <Redirect to={"/Games"}/>
+            <div>Deletion complete
+                <br/><Button component={Link} to="/Games" variant="contained" color="primary" >Game's Table</Button>
+            </div>
         );
-        // if (this.state.status === 1) {
-        //     return (
-        //         <Redirect to={'/subdivisions/' + this.props.match.params.id + '/employees'}/>
-        //     );
-        // }
-        // return (
-        //     <div>Error: {this.state.message}</div>
-        // );
     }
 }
 

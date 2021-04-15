@@ -37,7 +37,7 @@ export class Games extends Component{
                                 <th width={200}>Name</th>
                                 <th width={50}>Price</th>
                                 <th width={50}>Image</th>
-                                <th width={30}>Action</th>
+                                <th width={50}>Action</th>
                             </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(game => (

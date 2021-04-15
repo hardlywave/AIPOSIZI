@@ -31,7 +31,7 @@ class App extends Component{
                     <Route exact path='/Users' component={Users}/>
                     <Route exact path='/ImageUser' component={ImageUser}/>
                     <Route exact path='/CreateUser' component={CreateUser}/>
-                    <Route exact path='/DeleteUser' component={DeleteUser}/>
+                    <Route exact path='/users/delete/:id' component={DeleteUser}/>
                     <Route exact path='/users/update/:id' component={UpdateUser}/>
 
                     <Route exact path='/Games' component={Games}/>
@@ -47,7 +47,7 @@ class App extends Component{
 
                     <Route exact path='/Review' component={Review}/>
                     <Route exact path='/CreateReview' component={CreateReview}/>
-                    <Route exact path='/DeleteReview' component={DeleteReview}/>
+                    <Route exact path='/reviews/delete/:id' component={DeleteReview}/>
                     <Route exact path='/reviews/update/:id' component={UpdateReview}/>
                 </div>
             </BrowserRouter>

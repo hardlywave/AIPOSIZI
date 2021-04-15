@@ -20,17 +20,21 @@ class CreateKey extends Component{
     }
 
     onSubmit = (event) => {
-
         let {key, game} = this.state;
         event.preventDefault();
-        axios.post('http://localhost:8082/keys/create', JSON.stringify({
-            'key': key,
-            'game': game
-        }), axiosPOSTconfig)
-            .then((response) => {
-                this.setState({status: response.data.status});
-            })
-            .catch((error) => {console.log(error)});
+        if(key === '' || game === ''){
+            alert('Enter all fields');
+        }
+        else{
+            axios.post('http://localhost:8082/keys/create', JSON.stringify({
+                'key': key,
+                'game': game,
+            }), axiosPOSTconfig)
+                .then((response) => {
+                    this.setState({status: response.data.status});
+                })
+                .catch((error) => {console.log(error)});
+        }
     }
 
     render() {
@@ -41,8 +45,8 @@ class CreateKey extends Component{
                     <form onSubmit={this.onSubmit}>
                         <TextField id="key" type="text" value={key} placeholder={"Key"} onChange={this.onChange}/><br/>
                         <TextField id="game" type="text" value={game} placeholder={"Game name"} onChange={this.onChange}/><br/>
-                        <br/>
-                        <Button onClick={this.onSubmit} variant="contained" color="primary">Create Key</Button><br/>
+
+                        <br/><Button onClick={this.onSubmit} variant="contained" color="primary">Create Key</Button><br/>
                         <br/><Button component={Link} to="/Keys" variant="contained" color="primary">Key's Table</Button>
                     </form>
                 </div>

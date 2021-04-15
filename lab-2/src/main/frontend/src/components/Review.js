@@ -30,7 +30,7 @@ class Review extends Component{
                                 <th width={500}>Reviews</th>
                                 <th width={200}>Author</th>
                                 <th width={200}>Game</th>
-                                <th width={200}>Action</th>
+                                <th width={50}>Action</th>
                             </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(reviews => (
@@ -41,6 +41,7 @@ class Review extends Component{
                                     <td width={500}>{reviews.review}</td>
                                     <td width={200}>{reviews.author.username}</td>
                                     <td width={200}>{reviews.game.name}</td>
+                                    <Button component={Link} to={'/reviews/delete/' + reviews.id} variant="contained" color="primary">Delete</Button>
                                     <Button component={Link} to={'/reviews/update/' + reviews.id} variant="contained" color="primary">Update</Button>
                                 </tr>
                             </tbody>

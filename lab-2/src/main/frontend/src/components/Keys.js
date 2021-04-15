@@ -29,7 +29,7 @@ class Keys extends Component{
                                 <th width={50}>Id</th>
                                 <th width={300}>Key</th>
                                 <th width={200}>Game</th>
-                                <th width={30}>Action</th>
+                                <th width={50}>Action</th>
 
                             </tr>
                         </thead>
@@ -40,8 +40,7 @@ class Keys extends Component{
                                     <td width={300}>{key.key}</td>
                                     <td width={200}>{key.game.name}</td>
 
-                                    {/* Раскоментить, когда сделается DeleteKey
-                                    <Button component={Link} to={'/keys/delete/' + key.id} variant="contained" color="primary">Delete</Button>*/}
+                                    <Button component={Link} to={'/keys/delete/' + key.id} variant="contained" color="primary">Delete</Button>
                                     <Button component={Link} to={'/keys/update/' + key.id} variant="contained" color="primary">Update</Button>
                                 </tr>
                             </tbody>

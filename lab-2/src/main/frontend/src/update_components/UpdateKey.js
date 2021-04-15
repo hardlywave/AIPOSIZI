@@ -25,21 +25,27 @@ class UpdateKey extends Component{
     onSubmit = (event) => {
         event.preventDefault();
         let {key, game} = this.state;
-        event.preventDefault();
-        axios.post('http://localhost:8082/keys/update/' + this.props.match.params.id, JSON.stringify({
-            'key': key,
-            'game': game
-        }), axiosPOSTconfig)
-            .then((response) => {
-                this.setState({status: response.data.status});
-            })
-            .catch((error) => {console.log(error)});
+
+        if((key === '') || (game === '')) {
+            alert('Enter all Fields');
+        }
+        else{
+            axios.post('http://localhost:8082/keys/update/' + this.props.match.params.id, JSON.stringify({
+                'id': this.props.match.params.id,
+                'key': key,
+                'game': game,
+            }), axiosPOSTconfig)
+                .then((response) => {
+                    this.setState({status: response.data.status});
+                })
+                .catch((error) => {console.log(error)});
+        }
     }
 
     componentDidMount() {
         console.log(this.props);
         axios.get(`http://localhost:8082/keys/update/`+this.props.match.params.id)
-            .then((response) => {this.setState({key: response.data.key.rows[0].key, price: response.data.key.rows[0].game});})
+            .then((response) => {this.setState({key: response.data.keys.rows[0].key, price: response.data.keys.rows[0].game});})
             .catch((error) => {console.log(error); this.setState({ message: error.message })});
     }
 
@@ -51,7 +57,6 @@ class UpdateKey extends Component{
                     <form onSubmit={this.onSubmit}>
                         <TextField id="key" type="text" value={key} placeholder={"Key"} onChange={this.onChange}/><br/>
                         <TextField id="game" type="text" value={game} placeholder={"Game name"} onChange={this.onChange}/><br/>
-                        <br/>
 
                         <br/><Button onClick={this.onSubmit} variant="contained" color="primary">Update Key</Button><br/>
                         <br/><Button component={Link} to="/Keys" variant="contained" color="primary">Key's Table</Button><br/>

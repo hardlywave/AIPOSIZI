@@ -32,7 +32,7 @@ class Users extends Component{
                                 <th width={300}>Password</th>
                                 <th width={200}>Username</th>
                                 <th width={50}>Avatar</th>
-                                <th width={30}>Action</th>
+                                <th width={50}>Action</th>
                             </tr>
                         </thead>
                         {this.state.rows && this.state.rows.map(user => (
@@ -44,6 +44,7 @@ class Users extends Component{
                                     <td width={300}>{user.password}</td>
                                     <td width={200}>{user.username}</td>
                                     <td width={50}><Avatar alt="Remy Sharp" src={user.linkImage}/></td>
+                                    <Button component={Link} to={'/users/delete/' + user.id} variant="contained" color="primary">Delete</Button>
                                     <Button component={Link} to={'/users/update/' + user.id} variant="contained" color="primary">Update</Button>
                                 </tr>
                             </tbody>
