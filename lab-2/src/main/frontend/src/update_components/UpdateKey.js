@@ -11,7 +11,6 @@ class UpdateKey extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            rows: [],
             id: '',
             key: "",
             game: ""
@@ -25,7 +24,6 @@ class UpdateKey extends Component{
     onSubmit = (event) => {
         event.preventDefault();
         let {key, game} = this.state;
-
         if((key === '') || (game === '')) {
             alert('Enter all Fields');
         }
@@ -36,6 +34,7 @@ class UpdateKey extends Component{
                 'game': game,
             }), axiosPOSTconfig)
                 .then((response) => {
+                    alert('Update Completed');
                     this.setState({status: response.data.status});
                 })
                 .catch((error) => {console.log(error)});
@@ -45,7 +44,7 @@ class UpdateKey extends Component{
     componentDidMount() {
         console.log(this.props);
         axios.get(`http://localhost:8082/keys/update/`+this.props.match.params.id)
-            .then((response) => {this.setState({key: response.data.keys.rows[0].key, price: response.data.keys.rows[0].game});})
+            .then((response) => {this.setState({key: response.data.data.key, game: response.data.data.game.name});})
             .catch((error) => {console.log(error); this.setState({ message: error.message })});
     }
 

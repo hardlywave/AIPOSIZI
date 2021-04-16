@@ -22,9 +22,9 @@ class CreateGame extends Component{
     }
 
     onSubmit = (event) => {
-        let {name, price, description, date} = this.state;
         event.preventDefault();
-        if(name === '' || price === '' || description === '' || data === ''){
+        let {name, price, description, date} = this.state;
+        if(name === '' || price === '' || description === '' || date === ''){
             alert('Enter all Fields');
         }
         else{
@@ -36,7 +36,7 @@ class CreateGame extends Component{
             }), axiosPOSTconfig)
                 .then((response) => {
                     this.setState({status: response.data.status});
-                    alert('Creating complete');
+                    alert('Creating completed');
                 })
                 .catch((error) => {console.log(error) || alert(error)});
         }

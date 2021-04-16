@@ -1,4 +1,4 @@
-import React, {Component, useCallback} from "react";
+import React, {Component} from "react";
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
 import {Link, withRouter} from "react-router-dom";
@@ -32,6 +32,7 @@ class CreateKey extends Component{
             }), axiosPOSTconfig)
                 .then((response) => {
                     this.setState({status: response.data.status});
+                    alert('Creating completed');
                 })
                 .catch((error) => {console.log(error)});
         }

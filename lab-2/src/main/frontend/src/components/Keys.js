@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import axios from "axios";
 import {Link, withRouter} from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import {Avatar} from "@material-ui/core";
 
 class Keys extends Component{
     constructor(props) {

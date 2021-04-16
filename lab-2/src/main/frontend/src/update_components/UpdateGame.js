@@ -11,7 +11,6 @@ class UpdateGame extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            rows: [],
             name: "",
             price: "",
             description: "",
@@ -38,7 +37,7 @@ class UpdateGame extends Component{
                 'date': date,
             }), axiosPOSTconfig)
                 .then((response) => {
-                    console.log('Completed');
+                    alert('Update Completed');
                     this.setState({status: response.data.status});
                 })
                 .catch((error) => {console.log(error)});
@@ -48,7 +47,7 @@ class UpdateGame extends Component{
 
     componentDidMount() {
         axios.get(`http://localhost:8082/games/update/`+this.props.match.params.id)
-            .then((response) => {this.setState({id: this.props.match.params.id, date: response.data.games.rows[0].date, description: response.data.games.rows[0].description, name: response.data.games.rows[0].name, price: response.data.games.rows[0].price});})
+            .then((response) => {this.setState({id: this.props.match.params.id, date: response.data.data.date, description: response.data.data.description, name: response.data.data.name, price: response.data.data.price});})
             .catch((error) => {console.log(error); this.setState({ message: error.message })});
     }
 

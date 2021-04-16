@@ -11,7 +11,6 @@ class UpdateReview extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            rows: [],
             author: '',
             game: '',
             review: ''
@@ -36,6 +35,7 @@ class UpdateReview extends Component{
                 'id': this.props.match.params.id,
             }), axiosPOSTconfig)
                 .then((response) => {
+                    alert('Update Completed');
                     this.setState({status: response.data.status});
                 })
                 .catch((error) => {console.log(error)});
@@ -45,7 +45,7 @@ class UpdateReview extends Component{
     componentDidMount() {
         console.log(this.props);
         axios.get(`http://localhost:8082/reviews/update/`+this.props.match.params.id)
-            .then((response) => {this.setState({author: response.data.reviews.rows[0].author, game: response.data.reviews.rows[0].game, review: response.data.reviews.rows[0].review});})
+            .then((response) => {this.setState({author: response.data.data.author, game: response.data.data.game, review: response.data.data.review});})
             .catch((error) => {console.log(error); this.setState({ message: error.message })});
     }
 

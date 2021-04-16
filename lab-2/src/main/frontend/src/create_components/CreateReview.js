@@ -34,6 +34,7 @@ class CreateReview extends Component{
             }), axiosPOSTconfig)
                 .then((response) => {
                     this.setState({status: response.data.status});
+                    alert('Creating completed');
                 })
                 .catch((error) => {console.log(error)});
         }
