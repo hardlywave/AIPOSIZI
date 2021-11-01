@@ -1,6 +1,6 @@
-## AIPOSIZI
+# AIPOSIZI
 
-# React + Java
+## React + Java
 
 Группа 821701
 
